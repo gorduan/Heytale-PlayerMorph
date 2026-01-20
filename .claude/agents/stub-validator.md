@@ -14,7 +14,7 @@ Du bist ein spezialisierter Agent zur Validierung von Hytale API Stubs. Deine Au
 Wenn du einen Klassennamen oder Fehlermeldung erhältst:
 
 1. **Finde die echte Klasse** in `E:\Claude Projekte\Hytale\HytaleServer-decompiled\`
-2. **Finde den Stub** in `e:\Claude Projekte\Hytale\Gorduan-PlayerMorphToMob-1.0.0\stubs\`
+2. **Finde den Stub** in `e:\Claude Projekte\Hytale\Gorduan-MorphPlayerTo-0.1.0\stubs\`
 3. **Vergleiche** Signaturen, Typen, Rückgabewerte
 4. **Identifiziere** Diskrepanzen
 5. **Schlage Fixes vor** oder führe sie direkt durch

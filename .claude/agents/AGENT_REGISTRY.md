@@ -64,7 +64,7 @@ Alle Agents unterstützen GitHub Issues Integration. Siehe [git-workflow.md](../
   - Automatische Stub-Fixes
 - **Tools:** Read, Grep, Glob, Edit
 - **Comparison Sources:**
-  - Stubs: `e:\Claude Projekte\Hytale\Gorduan-PlayerMorphToMob-1.0.0\stubs\`
+  - Stubs: `e:\Claude Projekte\Hytale\Gorduan-MorphPlayerTo-0.1.0\stubs\`
   - Echte API: `E:\Claude Projekte\Hytale\HytaleServer-decompiled\`
 - **When to Use:**
   - Bei `NoSuchMethodError` zur Laufzeit

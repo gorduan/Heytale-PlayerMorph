@@ -84,4 +84,4 @@ Logs unter: `D:\Program Files\Hytale\LocalServer\Server\logs\`
 Suche nach:
 - `Exception`
 - `Error`
-- `com.gorduan.hytale.playermorphtomob`
+- `com.gorduan.hytale.morphplayerto`

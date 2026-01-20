@@ -1,8 +1,8 @@
-package com.gorduan.hytale.playermorphtomob.commands;
+package com.gorduan.hytale.morphplayerto.commands;
 
-import com.gorduan.hytale.playermorphtomob.MorphManager;
-import com.gorduan.hytale.playermorphtomob.PlayerMorphToMobPlugin;
-import com.gorduan.hytale.playermorphtomob.ui.MorphUIPage;
+import com.gorduan.hytale.morphplayerto.MorphManager;
+import com.gorduan.hytale.morphplayerto.MorphPlayerToPlugin;
+import com.gorduan.hytale.morphplayerto.ui.MorphUIPage;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.GameMode;
@@ -37,18 +37,18 @@ import java.util.concurrent.CompletableFuture;
  *   /morph <mobId> <player>     - Morph another player into mob
  *   /morph help                 - Show help
  *
- * Aliases: /playermorphtomob, /pmtm
+ * Aliases: /morphplayerto, /mpt
  */
 public class MorphCommand extends AbstractCommand {
 
-    private final PlayerMorphToMobPlugin plugin;
+    private final MorphPlayerToPlugin plugin;
 
-    public MorphCommand(@Nonnull PlayerMorphToMobPlugin plugin) {
+    public MorphCommand(@Nonnull MorphPlayerToPlugin plugin) {
         super("morph", "Morph commands");
         this.plugin = plugin;
 
         // Register command aliases and allow flexible argument parsing
-        addAliases("playermorphtomob", "pmtm");
+        addAliases("morphplayerto", "mpt");
         setAllowsExtraArguments(true);
 
         // Set permission group for GameMode-based access control
@@ -101,8 +101,8 @@ public class MorphCommand extends AbstractCommand {
         // Skip the command name itself
         int start = 0;
         if (args.length > 0 && (args[0].equalsIgnoreCase("morph")
-                || args[0].equalsIgnoreCase("playermorphtomob")
-                || args[0].equalsIgnoreCase("pmtm"))) {
+                || args[0].equalsIgnoreCase("morphplayerto")
+                || args[0].equalsIgnoreCase("mpt"))) {
             start = 1;
         }
 
@@ -154,7 +154,7 @@ public class MorphCommand extends AbstractCommand {
                 handleMorphOther(ctx, player, mobId, targetPlayerName);
             } else {
                 // Morph self
-                if (!player.hasPermission("playermorphtomob.morph.self")) {
+                if (!player.hasPermission("morphplayerto.morph.self")) {
                     ctx.sendMessage(Message.raw("You don't have permission to morph."));
                     return;
                 }
@@ -176,7 +176,7 @@ public class MorphCommand extends AbstractCommand {
      */
     private void handleMorphOther(@Nonnull CommandContext ctx, @Nonnull Player sender,
                                    @Nonnull String mobId, @Nonnull String targetName) {
-        if (!sender.hasPermission("playermorphtomob.morph.others")) {
+        if (!sender.hasPermission("morphplayerto.morph.others")) {
             ctx.sendMessage(Message.raw("You don't have permission to morph other players."));
             return;
         }
@@ -201,7 +201,7 @@ public class MorphCommand extends AbstractCommand {
      */
     private void handleUnmorphOther(@Nonnull CommandContext ctx, @Nonnull Player sender,
                                      @Nonnull String targetName) {
-        if (!sender.hasPermission("playermorphtomob.morph.others")) {
+        if (!sender.hasPermission("morphplayerto.morph.others")) {
             ctx.sendMessage(Message.raw("You don't have permission to unmorph other players."));
             return;
         }
@@ -238,7 +238,7 @@ public class MorphCommand extends AbstractCommand {
     }
 
     private void showHelp(@Nonnull CommandContext ctx, @Nonnull MorphManager morphManager) {
-        ctx.sendMessage(Message.raw("=== PlayerMorphToMob Help ==="));
+        ctx.sendMessage(Message.raw("=== MorphPlayerTo Help ==="));
         ctx.sendMessage(Message.raw("/morph - Open morph GUI"));
         ctx.sendMessage(Message.raw("/morph ui - Open morph GUI"));
         ctx.sendMessage(Message.raw("/morph list - List available mobs"));
@@ -265,7 +265,7 @@ public class MorphCommand extends AbstractCommand {
         MorphManager morphManager = plugin.getMorphManager();
         PlayerRef playerRef = player.getPlayerRef();
 
-        if (!player.hasPermission("playermorphtomob.morph.self")) {
+        if (!player.hasPermission("morphplayerto.morph.self")) {
             ctx.sendMessage(Message.raw("You don't have permission to unmorph."));
             return;
         }

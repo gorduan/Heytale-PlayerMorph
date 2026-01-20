@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Continue"
-Set-Location "E:\Claude Projekte\Hytale\Gorduan-PlayerMorphToMob-1.0.0"
+Set-Location "E:\Claude Projekte\Hytale\Gorduan-MorphPlayerTo-0.1.0"
 
 Write-Host "Cleaning build directories..."
 if (Test-Path "build\stub-classes") { Remove-Item -Recurse -Force "build\stub-classes" }
@@ -53,12 +53,12 @@ Remove-Item "src-args.txt" -ErrorAction SilentlyContinue
 Write-Host "Plugin compiled successfully."
 
 Write-Host "Creating JAR..."
-if (Test-Path "build\Gorduan-PlayerMorphToMob-1.0.0.jar") { Remove-Item "build\Gorduan-PlayerMorphToMob-1.0.0.jar" }
-jar cf "build\Gorduan-PlayerMorphToMob-1.0.0.jar" -C "build\plugin-classes" . -C . "manifest.json" -C "resources" .
+if (Test-Path "build\Gorduan-MorphPlayerTo-0.1.0.jar") { Remove-Item "build\Gorduan-MorphPlayerTo-0.1.0.jar" }
+jar cf "build\Gorduan-MorphPlayerTo-0.1.0.jar" -C "build\plugin-classes" . -C . "manifest.json" -C "resources" .
 if ($LASTEXITCODE -ne 0) {
     Write-Host "JAR creation failed!"
     exit 1
 }
-Write-Host "JAR created successfully: build\Gorduan-PlayerMorphToMob-1.0.0.jar"
+Write-Host "JAR created successfully: build\Gorduan-MorphPlayerTo-0.1.0.jar"
 
 Write-Host "Done!"

@@ -1,9 +1,9 @@
 {
   "Group": "Gorduan",
-  "Name": "PlayerMorphToMob",
-  "Version": "1.1.0",
+  "Name": "MorphPlayerTo",
+  "Version": "0.1.0",
   "Description": "Transform player avatars into mob models - supports morphing other players, persistence, and GUI",
-  "Main": "com.gorduan.hytale.playermorphtomob.PlayerMorphToMobPlugin",
+  "Main": "com.gorduan.hytale.morphplayerto.MorphPlayerToPlugin",
   "Authors": [
     {
       "Name": "Gorduan",

@@ -9,7 +9,7 @@ Nach **jeder signifikanten Aufgabe** (Features, Fixes, Refactorings):
 .\build.bat
 
 # Deploy
-copy "build\Gorduan-PlayerMorphToMob-1.0.0.jar" "D:\Program Files\Hytale\LocalServer\Server\Plugins\"
+copy "build\Gorduan-MorphPlayerTo-0.1.0.jar" "D:\Program Files\Hytale\LocalServer\Server\Plugins\"
 
 # Server starten und Logs prüfen
 cd "D:\Program Files\Hytale\LocalServer\Server"

@@ -25,7 +25,7 @@ Permissions folgen einem **dot-separated hierarchischen Format**:
 ```
 # Beispiele
 hytale.command.gamemode.self
-playermorphtomob.morph.others
+morphplayerto.morph.others
 myplugin.admin.kick
 ```
 
@@ -39,7 +39,7 @@ myplugin.admin.kick
 
 // Alle Permissions im Namespace
 hytale.*
-playermorphtomob.*
+morphplayerto.*
 ```
 
 ### Negation
@@ -49,7 +49,7 @@ Mit `-` Prefix explizit verweigern:
 ```java
 // Permission verweigern
 -hytale.command.kick
--playermorphtomob.morph.others
+-morphplayerto.morph.others
 ```
 
 **Wichtig:** Negationen haben IMMER Vorrang und überschreiben geerbte Gruppen-Permissions!
@@ -84,11 +84,11 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 PlayerRef playerRef = player.getPlayerRef();
 boolean hasPermission = PermissionsModule.get().hasPermission(
     playerRef,
-    "playermorphtomob.morph.others"
+    "morphplayerto.morph.others"
 );
 
 // Oder statische Hilfsmethode:
-boolean hasPerm = PermissionsModule.checkPermission(playerRef, "playermorphtomob.morph.others");
+boolean hasPerm = PermissionsModule.checkPermission(playerRef, "morphplayerto.morph.others");
 ```
 
 ### Via CommandSender (Player)
@@ -99,7 +99,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 Player player = store.getComponent(ref, Player.getComponentType());
 
 // Player implementiert CommandSender
-if (player.hasPermission("playermorphtomob.gui")) {
+if (player.hasPermission("morphplayerto.gui")) {
     // GUI öffnen
 }
 ```
@@ -113,7 +113,7 @@ public class MorphCommand extends AbstractCommand {
     @Nullable
     protected CompletableFuture<Void> execute(@Nonnull CommandContext context) {
         // Manuelle Permission-Prüfung
-        if (!context.sender().hasPermission("playermorphtomob.morph.others")) {
+        if (!context.sender().hasPermission("morphplayerto.morph.others")) {
             context.sender().sendMessage(
                 Message.of("You don't have permission to morph other players!")
             );
@@ -135,7 +135,7 @@ public class AdminMorphCommand extends AbstractCommand {
         super("adminmorph", "Admin-only morph command");
 
         // Permission automatisch prüfen (wirft Fehler wenn nicht vorhanden)
-        requirePermission("playermorphtomob.admin");
+        requirePermission("morphplayerto.admin");
     }
 }
 ```
@@ -148,7 +148,7 @@ Commands generieren automatisch Permission-Nodes:
 {plugin.basepermission}.command.{commandname}
 
 // Beispiel:
-playermorphtomob.command.playermorphtomob
+morphplayerto.command.morphplayerto
 ```
 
 ### Custom Permission Node
@@ -156,7 +156,7 @@ playermorphtomob.command.playermorphtomob
 ```java
 @Override
 protected String generatePermissionNode() {
-    return "playermorphtomob.custom.node";
+    return "morphplayerto.custom.node";
 }
 ```
 
@@ -238,7 +238,7 @@ this.getEventRegistry().registerListener(GroupPermissionChangeEvent.class, event
 ```java
 public class Permissions {
     // Basis
-    public static final String BASE = "playermorphtomob";
+    public static final String BASE = "morphplayerto";
 
     // Alle Rechte
     public static final String ALL = BASE + ".*";
@@ -265,7 +265,7 @@ public class Permissions {
 ### Permission-Helper-Klasse
 
 ```java
-package com.gorduan.hytale.playermorphtomob;
+package com.gorduan.hytale.morphplayerto;
 
 import com.hypixel.hytale.server.core.permissions.PermissionsModule;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -273,7 +273,7 @@ import javax.annotation.Nonnull;
 
 public class Permissions {
 
-    public static final String BASE = "playermorphtomob";
+    public static final String BASE = "morphplayerto";
     public static final String COMMAND = BASE + ".command";
     public static final String GUI = BASE + ".gui";
     public static final String MORPH_SELF = BASE + ".morph.self";
@@ -320,14 +320,14 @@ Permissions werden in `permissions.json` gespeichert:
     },
     "moderator": {
       "permissions": [
-        "playermorphtomob.command",
-        "playermorphtomob.gui",
-        "playermorphtomob.morph.self"
+        "morphplayerto.command",
+        "morphplayerto.gui",
+        "morphplayerto.morph.self"
       ]
     },
     "admin": {
       "permissions": [
-        "playermorphtomob.*"
+        "morphplayerto.*"
       ]
     }
   },
@@ -345,13 +345,13 @@ Permissions werden in `permissions.json` gespeichert:
 1. **Hierarchische Struktur verwenden**
    ```
    plugin.feature.action
-   playermorphtomob.morph.self
-   playermorphtomob.morph.others
+   morphplayerto.morph.self
+   morphplayerto.morph.others
    ```
 
 2. **Wildcards für Admins**
    ```
-   playermorphtomob.*
+   morphplayerto.*
    ```
 
 3. **Separate Permissions für Self/Others**

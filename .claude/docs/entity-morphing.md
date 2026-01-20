@@ -227,7 +227,7 @@ import com.hypixel.hytale.server.asset.AssetManager;
 ## MorphManager Implementierung
 
 ```java
-package com.gorduan.hytale.playermorphtomob;
+package com.gorduan.hytale.morphplayerto;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -361,7 +361,7 @@ public class MorphManager {
 ## MorphData Klasse
 
 ```java
-package com.gorduan.hytale.playermorphtomob.data;
+package com.gorduan.hytale.morphplayerto.data;
 
 public class MorphData {
 

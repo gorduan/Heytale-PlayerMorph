@@ -6,7 +6,7 @@ allowed-tools: Bash
 
 # Deploy Plugin
 
-Deploye das PlayerMorphToMob Plugin zum Hytale Server.
+Deploye das MorphPlayerTo Plugin zum Hytale Server.
 
 ## Voraussetzungen
 
@@ -22,7 +22,7 @@ powershell -Command "Get-Process -Name 'java' -ErrorAction SilentlyContinue | St
 
 ### 2. JAR kopieren
 ```bash
-powershell -Command "Copy-Item 'e:\Claude Projekte\Hytale\Gorduan-PlayerMorphToMob-1.0.0\build\Gorduan-PlayerMorphToMob-1.0.0.jar' 'D:\Program Files\Hytale\LocalServer\Server\Plugins\' -Force; Write-Host 'Plugin deployed'"
+powershell -Command "Copy-Item 'e:\Claude Projekte\Hytale\Gorduan-MorphPlayerTo-0.1.0\build\Gorduan-MorphPlayerTo-0.1.0.jar' 'D:\Program Files\Hytale\LocalServer\Server\Plugins\' -Force; Write-Host 'Plugin deployed'"
 ```
 
 ### 3. Server starten
@@ -34,7 +34,7 @@ powershell -Command "Start-Process powershell -ArgumentList '-NoExit', '-Command
 
 | Was | Pfad |
 |-----|------|
-| Build JAR | `e:\Claude Projekte\Hytale\Gorduan-PlayerMorphToMob-1.0.0\build\Gorduan-PlayerMorphToMob-1.0.0.jar` |
+| Build JAR | `e:\Claude Projekte\Hytale\Gorduan-MorphPlayerTo-0.1.0\build\Gorduan-MorphPlayerTo-0.1.0.jar` |
 | Server Plugins | `D:\Program Files\Hytale\LocalServer\Server\Plugins\` |
 | Server Logs | `D:\Program Files\Hytale\LocalServer\Server\logs\` |
 

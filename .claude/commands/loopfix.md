@@ -1,6 +1,6 @@
 # Hytale Plugin Debug Loop
 
-Du bist ein automatisierter Debug-Agent für das Hytale Plugin "PlayerMorphToMob". Führe den folgenden Zyklus aus, bis das Plugin fehlerfrei läuft oder du eine Benutzerentscheidung benötigst.
+Du bist ein automatisierter Debug-Agent für das Hytale Plugin "MorphPlayerTo". Führe den folgenden Zyklus aus, bis das Plugin fehlerfrei läuft oder du eine Benutzerentscheidung benötigst.
 
 ## Debug-Zyklus
 
@@ -16,7 +16,7 @@ cd "D:/Program Files/Hytale/LocalServer/Server" && java -XX:AOTCache=HytaleServe
 - Lies die Server-Ausgabe und suche nach:
   - `Exception`, `Error`, `NoSuchMethodError`, `NoSuchFieldError`
   - `ClassNotFoundException`, `IncompatibleClassChangeError`
-  - Stack traces die auf `com.gorduan.hytale.playermorphtomob` verweisen
+  - Stack traces die auf `com.gorduan.hytale.morphplayerto` verweisen
   - Plugin-bezogene Fehlermeldungen
 
 ### Schritt 3: Fehler diagnostizieren
@@ -37,7 +37,7 @@ Beende den laufenden Server-Prozess (kill the background task).
 
 ### Schritt 6: Plugin neu kompilieren
 ```bash
-cd "E:/Claude Projekte/Hytale/Gorduan-PlayerMorphToMob-1.0.0"
+cd "E:/Claude Projekte/Hytale/Gorduan-MorphPlayerTo-0.1.0"
 
 # Stubs kompilieren
 javac -d build/stub-classes -cp "libs/*" $(find stubs -name "*.java")
@@ -46,12 +46,12 @@ javac -d build/stub-classes -cp "libs/*" $(find stubs -name "*.java")
 javac -d build/plugin-classes -cp "build/stub-classes;libs/*" $(find src -name "*.java")
 
 # JAR erstellen
-jar cf build/Gorduan-PlayerMorphToMob-1.0.0.jar -C build/plugin-classes . -C . manifest.json -C resources .
+jar cf build/Gorduan-MorphPlayerTo-0.1.0.jar -C build/plugin-classes . -C . manifest.json -C resources .
 ```
 
 ### Schritt 7: JAR kopieren
 ```bash
-cp "E:/Claude Projekte/Hytale/Gorduan-PlayerMorphToMob-1.0.0/build/Gorduan-PlayerMorphToMob-1.0.0.jar" "D:/Program Files/Hytale/LocalServer/Server/Mods/"
+cp "E:/Claude Projekte/Hytale/Gorduan-MorphPlayerTo-0.1.0/build/Gorduan-MorphPlayerTo-0.1.0.jar" "D:/Program Files/Hytale/LocalServer/Server/Mods/"
 ```
 
 ### Schritt 8: Wiederholen
@@ -68,12 +68,12 @@ Gehe zurück zu **Schritt 1** und starte den Server erneut.
 
 ## Wichtige Pfade
 
-- **Plugin-Projekt:** `E:/Claude Projekte/Hytale/Gorduan-PlayerMorphToMob-1.0.0/`
-- **Stubs:** `E:/Claude Projekte/Hytale/Gorduan-PlayerMorphToMob-1.0.0/stubs/`
-- **Source:** `E:/Claude Projekte/Hytale/Gorduan-PlayerMorphToMob-1.0.0/src/`
+- **Plugin-Projekt:** `E:/Claude Projekte/Hytale/Gorduan-MorphPlayerTo-0.1.0/`
+- **Stubs:** `E:/Claude Projekte/Hytale/Gorduan-MorphPlayerTo-0.1.0/stubs/`
+- **Source:** `E:/Claude Projekte/Hytale/Gorduan-MorphPlayerTo-0.1.0/src/`
 - **Dekompilierter Server:** `E:/Claude Projekte/Hytale/HytaleServer-decompiled/`
 - **Server Mods:** `D:/Program Files/Hytale/LocalServer/Server/Mods/`
-- **Build Output:** `E:/Claude Projekte/Hytale/Gorduan-PlayerMorphToMob-1.0.0/build/`
+- **Build Output:** `E:/Claude Projekte/Hytale/Gorduan-MorphPlayerTo-0.1.0/build/`
 
 ## Hinweise
 

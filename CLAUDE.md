@@ -1,6 +1,6 @@
-# PlayerMorphToMob - Hytale Server Plugin
+# MorphPlayerTo - Hytale Server Plugin
 
-> **Version:** 1.1.0 | **Java:** 25 | **Main:** `com.gorduan.hytale.playermorphtomob.PlayerMorphToMobPlugin`
+> **Version:** 0.1.0 | **Java:** 25 | **Main:** `com.gorduan.hytale.morphplayerto.MorphPlayerToPlugin`
 
 ## GitHub Repository
 

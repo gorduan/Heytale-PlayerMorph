@@ -39,7 +39,7 @@ Basis für alle Commands. Implementiert `execute()` mit Rückgabe `CompletableFu
 Handhabt asynchrone Operationen über `executeAsync()`.
 
 ### AbstractPlayerCommand
-**Für PlayerMorphToMob relevant!** Beschränkt Ausführung auf Spieler.
+**Für MorphPlayerTo relevant!** Beschränkt Ausführung auf Spieler.
 
 ### AbstractTargetPlayerCommand
 Für Commands die andere Spieler targeten.
@@ -52,7 +52,7 @@ Gruppiert verwandte Subcommands zusammen.
 ### Basis-Struktur
 
 ```java
-package com.gorduan.hytale.playermorphtomob.commands;
+package com.gorduan.hytale.morphplayerto.commands;
 
 import com.hypixel.hytale.server.core.command.system.AbstractCommand;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
@@ -77,7 +77,7 @@ public class MorphCommand extends AbstractCommand {
 
     public MorphCommand() {
         // super(name, description)
-        super("playermorphtomob", "Morph a player into a mob model");
+        super("morphplayerto", "Morph a player into a mob model");
 
         // Argumente registrieren
         playerArg = withOptionalArg("player", "Target player name", ArgTypes.STRING);
@@ -234,12 +234,12 @@ public void setup() {
 public class MorphCommandCollection extends AbstractCommandCollection {
 
     public MorphCommandCollection() {
-        super("playermorphtomob", "Player morph commands");
+        super("morphplayerto", "Player morph commands");
 
         // Subcommands hinzufügen
-        addSubCommand(new MorphSetCommand());     // /playermorphtomob set
-        addSubCommand(new MorphResetCommand());   // /playermorphtomob reset
-        addSubCommand(new MorphListCommand());    // /playermorphtomob list
+        addSubCommand(new MorphSetCommand());     // /morphplayerto set
+        addSubCommand(new MorphResetCommand());   // /morphplayerto reset
+        addSubCommand(new MorphListCommand());    // /morphplayerto list
     }
 }
 ```
@@ -251,7 +251,7 @@ public class MorphCommandCollection extends AbstractCommandCollection {
 Commands generieren automatisch Permission-Nodes:
 `{plugin.basepermission}.command.{commandname}`
 
-Beispiel: `playermorphtomob.command.playermorphtomob`
+Beispiel: `morphplayerto.command.morphplayerto`
 
 ### Manuelle Permission-Prüfung
 
@@ -259,7 +259,7 @@ Beispiel: `playermorphtomob.command.playermorphtomob`
 @Override
 protected CompletableFuture<Void> execute(CommandContext context, ...) {
     // Sender abrufen
-    if (!context.sender().hasPermission("playermorphtomob.morph.others")) {
+    if (!context.sender().hasPermission("morphplayerto.morph.others")) {
         context.sender().sendMessage(Message.raw("No permission!"));
         return null;
     }
@@ -273,7 +273,7 @@ protected CompletableFuture<Void> execute(CommandContext context, ...) {
 ```java
 @Override
 protected String generatePermissionNode() {
-    return "playermorphtomob.custom.permission";
+    return "morphplayerto.custom.permission";
 }
 ```
 
@@ -315,20 +315,20 @@ protected CompletableFuture<Void> execute(...) {
 }
 ```
 
-## PlayerMorphToMob Command-Verwendung
+## MorphPlayerTo Command-Verwendung
 
 ```bash
 # GUI öffnen
-/playermorphtomob
+/morphplayerto
 
 # Spieler morphen
-/playermorphtomob PlayerName zombie
+/morphplayerto PlayerName zombie
 
 # Mit verstecktem Nametag
-/playermorphtomob PlayerName skeleton --hiddenname
+/morphplayerto PlayerName skeleton --hiddenname
 
 # Zurücksetzen
-/playermorphtomob reset PlayerName
+/morphplayerto reset PlayerName
 
 # Aliase
 /morph PlayerName trork

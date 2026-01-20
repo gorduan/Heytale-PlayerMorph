@@ -30,30 +30,30 @@ Hytale verwendet ein **100% serverseitiges Modding-System**. Alle Spiellogik, Re
 ### Hauptklasse
 
 ```java
-package com.gorduan.hytale.playermorphtomob;
+package com.gorduan.hytale.morphplayerto;
 
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import javax.annotation.Nonnull;
 import java.util.logging.Level;
 
-public class PlayerMorphToMobPlugin extends JavaPlugin {
+public class MorphPlayerToPlugin extends JavaPlugin {
 
-    private static PlayerMorphToMobPlugin instance;
+    private static MorphPlayerToPlugin instance;
 
-    public PlayerMorphToMobPlugin(@Nonnull JavaPluginInit init) {
+    public MorphPlayerToPlugin(@Nonnull JavaPluginInit init) {
         super(init);
         instance = this;
     }
 
-    public static PlayerMorphToMobPlugin getInstance() {
+    public static MorphPlayerToPlugin getInstance() {
         return instance;
     }
 
     @Override
     protected void setup() {
         // Registrierungsphase: Commands, Events, Assets, Components
-        getLogger().at(Level.INFO).log("Setting up PlayerMorphToMob...");
+        getLogger().at(Level.INFO).log("Setting up MorphPlayerTo...");
 
         // Command registrieren
         getCommandRegistry().registerCommand(new MorphCommand());
@@ -66,13 +66,13 @@ public class PlayerMorphToMobPlugin extends JavaPlugin {
     protected void start() {
         // Wird aufgerufen nachdem ALLE Plugins setup() abgeschlossen haben
         // Hier können Plugin-übergreifende Abhängigkeiten initialisiert werden
-        getLogger().at(Level.INFO).log("PlayerMorphToMob started!");
+        getLogger().at(Level.INFO).log("MorphPlayerTo started!");
     }
 
     @Override
     protected void shutdown() {
         // Plugin wird deaktiviert - Aufräumarbeiten durchführen
-        getLogger().at(Level.INFO).log("PlayerMorphToMob shutting down...");
+        getLogger().at(Level.INFO).log("MorphPlayerTo shutting down...");
     }
 }
 ```
@@ -81,9 +81,9 @@ public class PlayerMorphToMobPlugin extends JavaPlugin {
 
 ```json
 {
-    "Name": "PlayerMorphToMob",
+    "Name": "MorphPlayerTo",
     "Version": "1.0.0",
-    "Main": "com.gorduan.hytale.playermorphtomob.PlayerMorphToMobPlugin",
+    "Main": "com.gorduan.hytale.morphplayerto.MorphPlayerToPlugin",
     "Author": "Gorduan",
     "Website": "https://github.com/Gorduan",
     "IncludesAssetPack": true

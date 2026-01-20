@@ -6,7 +6,7 @@ allowed-tools: Bash, Read, Edit, Write, Grep, Glob, WebSearch, WebFetch, TodoWri
 
 # Hytale Plugin Debug Loop
 
-Du bist ein automatisierter Debug-Agent für das Hytale Plugin "PlayerMorphToMob". Führe den folgenden Zyklus aus, bis das Plugin fehlerfrei läuft oder du eine Benutzerentscheidung benötigst.
+Du bist ein automatisierter Debug-Agent für das Hytale Plugin "MorphPlayerTo". Führe den folgenden Zyklus aus, bis das Plugin fehlerfrei läuft oder du eine Benutzerentscheidung benötigst.
 
 ## Debug-Zyklus
 
@@ -21,7 +21,7 @@ powershell -Command "Start-Process powershell -ArgumentList '-NoExit', '-Command
 Lies die Server-Logs und suche nach:
 - `Exception`, `Error`, `NoSuchMethodError`, `NoSuchFieldError`
 - `ClassNotFoundException`, `IncompatibleClassChangeError`
-- Stack traces die auf `com.gorduan.hytale.playermorphtomob` verweisen
+- Stack traces die auf `com.gorduan.hytale.morphplayerto` verweisen
 
 Log-Pfad: `D:\Program Files\Hytale\LocalServer\Server\logs\`
 
@@ -45,12 +45,12 @@ powershell -Command "Get-Process -Name 'java' -ErrorAction SilentlyContinue | St
 ### Schritt 6: Plugin neu kompilieren
 Nutze den `/build` Skill oder führe manuell aus:
 ```bash
-cd "e:\Claude Projekte\Hytale\Gorduan-PlayerMorphToMob-1.0.0" && cmd /c build.bat
+cd "e:\Claude Projekte\Hytale\Gorduan-MorphPlayerTo-0.1.0" && cmd /c build.bat
 ```
 
 ### Schritt 7: JAR deployen
 ```bash
-powershell -Command "Copy-Item 'e:\Claude Projekte\Hytale\Gorduan-PlayerMorphToMob-1.0.0\build\Gorduan-PlayerMorphToMob-1.0.0.jar' 'D:\Program Files\Hytale\LocalServer\Server\Plugins\' -Force"
+powershell -Command "Copy-Item 'e:\Claude Projekte\Hytale\Gorduan-MorphPlayerTo-0.1.0\build\Gorduan-MorphPlayerTo-0.1.0.jar' 'D:\Program Files\Hytale\LocalServer\Server\Plugins\' -Force"
 ```
 
 ### Schritt 8: Wiederholen
@@ -68,7 +68,7 @@ Gehe zurück zu Schritt 1.
 
 | Pfad | Beschreibung |
 |------|-------------|
-| `E:/Claude Projekte/Hytale/Gorduan-PlayerMorphToMob-1.0.0/` | Plugin-Projekt |
+| `E:/Claude Projekte/Hytale/Gorduan-MorphPlayerTo-0.1.0/` | Plugin-Projekt |
 | `E:/Claude Projekte/Hytale/HytaleServer-decompiled/` | Echte API-Referenz |
 | `D:/Program Files/Hytale/LocalServer/Server/Plugins/` | Server Plugins |
 | `D:/Program Files/Hytale/LocalServer/Server/logs/` | Server Logs |

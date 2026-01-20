@@ -1,7 +1,7 @@
-package com.gorduan.hytale.playermorphtomob;
+package com.gorduan.hytale.morphplayerto;
 
-import com.gorduan.hytale.playermorphtomob.data.MorphData;
-import com.gorduan.hytale.playermorphtomob.storage.MorphStorage;
+import com.gorduan.hytale.morphplayerto.data.MorphData;
+import com.gorduan.hytale.morphplayerto.storage.MorphStorage;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;

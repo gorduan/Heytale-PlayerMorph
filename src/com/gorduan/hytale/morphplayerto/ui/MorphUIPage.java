@@ -1,7 +1,7 @@
-package com.gorduan.hytale.playermorphtomob.ui;
+package com.gorduan.hytale.morphplayerto.ui;
 
-import com.gorduan.hytale.playermorphtomob.MorphManager;
-import com.gorduan.hytale.playermorphtomob.PlayerMorphToMobPlugin;
+import com.gorduan.hytale.morphplayerto.MorphManager;
+import com.gorduan.hytale.morphplayerto.MorphPlayerToPlugin;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -33,7 +33,7 @@ public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
     private static final String UI_PATH = "Pages/MorphSelector.ui";
     private static final String ENTRY_PATH = "Pages/MorphEntry.ui";
 
-    private final PlayerMorphToMobPlugin plugin;
+    private final MorphPlayerToPlugin plugin;
     private final Player player;
     private final List<String> morphList;
 
@@ -45,7 +45,7 @@ public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
      * @param player    The player object for sending messages
      * @param morphList List of available mob model IDs
      */
-    public MorphUIPage(@Nonnull PlayerMorphToMobPlugin plugin,
+    public MorphUIPage(@Nonnull MorphPlayerToPlugin plugin,
                        @Nonnull PlayerRef playerRef,
                        @Nonnull Player player,
                        @Nonnull List<String> morphList) {

@@ -1,4 +1,4 @@
-package com.gorduan.hytale.playermorphtomob.ui;
+package com.gorduan.hytale.morphplayerto.ui;
 
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;

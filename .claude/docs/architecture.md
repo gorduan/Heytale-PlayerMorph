@@ -1,4 +1,4 @@
-# PlayerMorphToMob - Architektur & Design
+# MorphPlayerTo - Architektur & Design
 
 ## System-Übersicht
 
@@ -9,7 +9,7 @@ graph TB
     end
 
     subgraph "Server Layer"
-        Plugin[PlayerMorphToMob Plugin]
+        Plugin[MorphPlayerTo Plugin]
         CommandSystem[Command System]
         UISystem[UI System]
         PermSystem[Permission System]
@@ -32,7 +32,7 @@ graph TB
 
 ```mermaid
 classDiagram
-    class PlayerMorphToMobPlugin {
+    class MorphPlayerToPlugin {
         -MorphManager morphManager
         -static instance
         +setup()
@@ -87,9 +87,9 @@ classDiagram
         +canMorphOthers(playerRef)
     }
 
-    PlayerMorphToMobPlugin --> MorphManager
-    PlayerMorphToMobPlugin --> MorphCommand
-    PlayerMorphToMobPlugin --> Permissions
+    MorphPlayerToPlugin --> MorphManager
+    MorphPlayerToPlugin --> MorphCommand
+    MorphPlayerToPlugin --> Permissions
     MorphCommand --> MorphManager
     MorphCommand --> MorphUIPage
     MorphUIPage --> MorphUIEventData
@@ -110,7 +110,7 @@ sequenceDiagram
     participant ES as EntityStore
     participant MA as ModelAsset
 
-    P->>C: /playermorphtomob Alex zombie --hiddenname
+    P->>C: /morphplayerto Alex zombie --hiddenname
     C->>PM: hasPermission(playerRef, "morph.others")
     PM-->>C: true
 
@@ -141,7 +141,7 @@ sequenceDiagram
     participant Data as MorphUIEventData
     participant MM as MorphManager
 
-    P->>C: /playermorphtomob
+    P->>C: /morphplayerto
     C->>UI: openCustomPage()
     UI->>P: Display MorphSelector.ui
 
@@ -162,13 +162,13 @@ sequenceDiagram
 stateDiagram-v2
     [*] --> Normal: Player joins
 
-    Normal --> SelectingMorph: /playermorphtomob (GUI)
-    Normal --> Morphed: /playermorphtomob player mob
+    Normal --> SelectingMorph: /morphplayerto (GUI)
+    Normal --> Morphed: /morphplayerto player mob
 
     SelectingMorph --> Normal: Cancel
     SelectingMorph --> Morphed: Apply morph
 
-    Morphed --> Normal: /playermorphtomob reset
+    Morphed --> Normal: /morphplayerto reset
     Morphed --> Morphed: Change morph
 
     Normal --> [*]: Player leaves
@@ -178,7 +178,7 @@ stateDiagram-v2
 ## Datei-Struktur
 
 ```
-Gorduan-PlayerMorphToMob-1.0.0/
+Gorduan-MorphPlayerTo-0.1.0/
 ├── .claude/
 │   └── docs/
 │       ├── plugin-api.md
@@ -192,8 +192,8 @@ Gorduan-PlayerMorphToMob-1.0.0/
 │   └── com/
 │       └── gorduan/
 │           └── hytale/
-│               └── playermorphtomob/
-│                   ├── PlayerMorphToMobPlugin.java
+│               └── morphplayerto/
+│                   ├── MorphPlayerToPlugin.java
 │                   ├── MorphManager.java
 │                   ├── Permissions.java
 │                   │
@@ -409,7 +409,7 @@ graph TB
         ConfigDir[/config/ Directory]
 
         subgraph "Plugin"
-            JAR[PlayerMorphToMob.jar]
+            JAR[MorphPlayerTo.jar]
             Assets[UI Assets]
         end
 

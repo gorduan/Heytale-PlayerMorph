@@ -5,7 +5,7 @@
 Hytale's serverseitiges GUI-System besteht aus drei Subsystemen:
 
 - **Windows** - Inventare, Container
-- **Pages** - Dialoge, Menüs (für PlayerMorphToMob relevant!)
+- **Pages** - Dialoge, Menüs (für MorphPlayerTo relevant!)
 - **HUD** - Overlays, Status
 
 ## KRITISCH: Stubs vs. Echte API

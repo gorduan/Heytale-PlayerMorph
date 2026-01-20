@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 
-cd /d "E:\Claude Projekte\Hytale\Gorduan-PlayerMorphToMob-1.0.0"
+cd /d "E:\Claude Projekte\Hytale\Gorduan-MorphPlayerTo-0.1.0"
 
 echo Cleaning build directories...
 if exist build\stub-classes rmdir /s /q build\stub-classes
@@ -32,12 +32,12 @@ del src-files.txt
 echo Plugin compiled successfully.
 
 echo Creating JAR...
-if exist build\Gorduan-PlayerMorphToMob-1.0.0.jar del build\Gorduan-PlayerMorphToMob-1.0.0.jar
-jar cf build/Gorduan-PlayerMorphToMob-1.0.0.jar -C build/plugin-classes . -C . manifest.json -C resources .
+if exist build\Gorduan-MorphPlayerTo-0.1.0.jar del build\Gorduan-MorphPlayerTo-0.1.0.jar
+jar cf build/Gorduan-MorphPlayerTo-0.1.0.jar -C build/plugin-classes . -C . manifest.json -C resources .
 if errorlevel 1 (
     echo JAR creation failed!
     exit /b 1
 )
-echo JAR created successfully: build\Gorduan-PlayerMorphToMob-1.0.0.jar
+echo JAR created successfully: build\Gorduan-MorphPlayerTo-0.1.0.jar
 
 echo Done!

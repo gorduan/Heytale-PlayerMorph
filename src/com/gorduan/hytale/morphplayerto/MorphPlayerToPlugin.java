@@ -1,6 +1,6 @@
-package com.gorduan.hytale.playermorphtomob;
+package com.gorduan.hytale.morphplayerto;
 
-import com.gorduan.hytale.playermorphtomob.commands.MorphCommand;
+import com.gorduan.hytale.morphplayerto.commands.MorphCommand;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 /**
- * PlayerMorphToMob - A Hytale plugin that allows players to transform into mob models.
+ * MorphPlayerTo - A Hytale plugin that allows players to transform into mob models.
  *
  * Features:
  * - Morph self or other players into mob models
@@ -27,20 +27,20 @@ import java.util.logging.Level;
  * - Thread-safe ECS operations
  *
  * @author Gorduan
- * @version 1.1.0
+ * @version 0.1.0
  */
-public class PlayerMorphToMobPlugin extends JavaPlugin {
+public class MorphPlayerToPlugin extends JavaPlugin {
 
-    private static PlayerMorphToMobPlugin instance;
+    private static MorphPlayerToPlugin instance;
     private MorphManager morphManager;
     private ScheduledExecutorService scheduler;
 
-    public PlayerMorphToMobPlugin(@Nonnull JavaPluginInit init) {
+    public MorphPlayerToPlugin(@Nonnull JavaPluginInit init) {
         super(init);
         instance = this;
     }
 
-    public static PlayerMorphToMobPlugin getInstance() {
+    public static MorphPlayerToPlugin getInstance() {
         return instance;
     }
 
@@ -50,14 +50,14 @@ public class PlayerMorphToMobPlugin extends JavaPlugin {
      */
     @Override
     protected void setup() {
-        getLogger().at(Level.INFO).log("Setting up PlayerMorphToMob v1.1.0...");
+        getLogger().at(Level.INFO).log("Setting up MorphPlayerTo v0.1.0...");
 
         // Initialize scheduler for delayed morph restoration
         scheduler = Executors.newSingleThreadScheduledExecutor();
 
         // Initialize morph manager with data folder for persistence
         morphManager = MorphManager.getInstance();
-        Path dataFolder = Path.of("Mods", "PlayerMorphToMob");
+        Path dataFolder = Path.of("Mods", "MorphPlayerTo");
         morphManager.initialize(dataFolder);
 
         // Register morph command with plugin reference
@@ -68,17 +68,17 @@ public class PlayerMorphToMobPlugin extends JavaPlugin {
         getEventRegistry().registerGlobal(PlayerConnectEvent.class, this::onPlayerConnect);
         getEventRegistry().registerGlobal(PlayerDisconnectEvent.class, this::onPlayerDisconnect);
 
-        getLogger().at(Level.INFO).log("PlayerMorphToMob setup complete.");
+        getLogger().at(Level.INFO).log("MorphPlayerTo setup complete.");
     }
 
     @Override
     protected void start() {
-        getLogger().at(Level.INFO).log("PlayerMorphToMob v1.1.0 enabled!");
+        getLogger().at(Level.INFO).log("MorphPlayerTo v0.1.0 enabled!");
     }
 
     @Override
     protected void shutdown() {
-        getLogger().at(Level.INFO).log("PlayerMorphToMob shutting down...");
+        getLogger().at(Level.INFO).log("MorphPlayerTo shutting down...");
 
         if (scheduler != null) {
             scheduler.shutdown();

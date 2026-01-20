@@ -1,4 +1,4 @@
-package com.gorduan.hytale.playermorphtomob.data;
+package com.gorduan.hytale.morphplayerto.data;
 
 import com.hypixel.hytale.server.core.modules.entity.player.PlayerSkinComponent;
 import javax.annotation.Nonnull;

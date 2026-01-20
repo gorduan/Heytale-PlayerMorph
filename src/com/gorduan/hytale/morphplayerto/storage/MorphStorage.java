@@ -1,4 +1,4 @@
-package com.gorduan.hytale.playermorphtomob.storage;
+package com.gorduan.hytale.morphplayerto.storage;
 
 import com.hypixel.hytale.logger.HytaleLogger;
 
@@ -59,7 +59,7 @@ public class MorphStorage {
             }
 
             try (OutputStream os = Files.newOutputStream(dataFile)) {
-                morphData.store(os, "PlayerMorphToMob - Saved Morphs");
+                morphData.store(os, "MorphPlayerTo - Saved Morphs");
                 LOGGER.at(Level.FINE).log("Saved %d morph entries to storage", morphData.size());
             }
         } catch (IOException e) {
