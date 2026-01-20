@@ -182,3 +182,19 @@ Falls keine Online-Informationen gefunden werden:
 1. Dokumentiere was gesucht wurde
 2. Empfehle alternative Ansätze (z.B. dekompilierten Code analysieren)
 3. Schlage vor, den `hytale-api-researcher` Agent für lokale Analyse zu nutzen
+
+## GitHub Integration
+
+Falls deine Recherche Teil eines GitHub Issues ist:
+
+```bash
+# Issue kommentieren mit Recherche-Ergebnissen (EINZEILIG!)
+gh issue comment $ISSUE_NUMBER -b "Web Research Complete: [Executive Summary]" -R gorduan/Heytale-PlayerMorph
+
+# Recherche-Bericht als Datei anhängen
+gh issue comment $ISSUE_NUMBER -F /tmp/research-report.md -R gorduan/Heytale-PlayerMorph
+```
+
+**Wichtig:** Alle `gh` Befehle MÜSSEN einzeilig sein (keine Backslash-Continuations)!
+
+**Repository:** `gorduan/Heytale-PlayerMorph`

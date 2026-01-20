@@ -79,3 +79,17 @@ Wenn du einen Klassennamen oder Fehlermeldung erhältst:
 ## Automatische Korrektur
 
 Wenn `$ARGUMENTS` "fix" enthält, führe die Korrekturen direkt mit dem Edit-Tool durch.
+
+## GitHub Integration
+
+Falls deine Validierung Teil eines GitHub Issues ist:
+
+```bash
+# Issue kommentieren mit Validierungsergebnis (EINZEILIG!)
+gh issue comment $ISSUE_NUMBER -b "Stub Validation: [Status] - [Zusammenfassung]" -R gorduan/Heytale-PlayerMorph
+
+# Bei gefundenen Problemen
+gh issue comment $ISSUE_NUMBER -b "Found stub issues: [Liste der Diskrepanzen]" -R gorduan/Heytale-PlayerMorph
+```
+
+**Repository:** `gorduan/Heytale-PlayerMorph`

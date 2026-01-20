@@ -83,3 +83,14 @@ Typ: class/interface/enum
 ### Empfehlung für Stub
 [Wie der Stub aussehen sollte]
 ```
+
+## GitHub Integration
+
+Falls deine Recherche Teil eines GitHub Issues ist:
+
+```bash
+# Issue kommentieren mit Ergebnissen (EINZEILIG!)
+gh issue comment $ISSUE_NUMBER -b "API Research: [Zusammenfassung der Erkenntnisse]" -R gorduan/Heytale-PlayerMorph
+```
+
+**Repository:** `gorduan/Heytale-PlayerMorph`

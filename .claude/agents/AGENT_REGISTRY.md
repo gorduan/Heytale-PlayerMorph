@@ -1,8 +1,17 @@
 # Agent Registry
 
 > **Maintained by:** Claude Code
-> **Last Updated:** 2025-01-20
+> **Last Updated:** 2026-01-21
 > **Total Agents:** 3
+> **Skills:** 1
+
+---
+
+## GitHub Repository
+
+**URL:** https://github.com/gorduan/Heytale-PlayerMorph
+
+Alle Agents unterstützen GitHub Issues Integration. Siehe [git-workflow.md](../context/git-workflow.md) für Details.
 
 ---
 
@@ -13,6 +22,12 @@
 | `hytale-api-researcher` | API Research | haiku | Read, Grep, Glob, WebSearch, WebFetch | Findet API-Signaturen im dekompilierten Server |
 | `stub-validator` | Stub Validation | sonnet | Read, Grep, Glob, Edit | Validiert Stubs gegen echte API |
 | `hytale-web-researcher` | Web Research | opus | WebSearch, WebFetch, Read, Write | Intensive Online-Recherche für Hytale Modding |
+
+## Skills Overview
+
+| Name | Purpose | Trigger |
+|------|---------|---------|
+| `fix-issue` | GitHub Issue bearbeiten, implementieren, PR erstellen | `/fix-issue <nummer>` |
 
 ---
 
@@ -121,13 +136,31 @@ Neue Agents für dieses Projekt sollten:
 
 ---
 
+## Skills
+
+### fix-issue
+
+- **File:** `skills/fix-issue/SKILL.md`
+- **Trigger:** `/fix-issue <issue-nummer>`
+- **Description:** Automatisierter Workflow für Issue-basierte Entwicklung
+- **Workflow:**
+  1. Issue Details abrufen (`gh issue view`)
+  2. Branch erstellen (`gh issue develop`)
+  3. Implementierung durchführen
+  4. Build testen (`.\build.bat`)
+  5. Commit mit Issue-Referenz
+  6. PR erstellen (`gh pr create`)
+- **Wichtig:** Alle gh Befehle MÜSSEN einzeilig sein!
+
+---
+
 ## Maintenance
 
 | Task | Frequency | Last Run | Next Due |
 |------|-----------|----------|----------|
-| Agent Review | Monthly | 2025-01-20 | 2025-02-20 |
-| Source URLs prüfen | Quarterly | 2025-01-20 | 2025-04-20 |
+| Agent Review | Monthly | 2026-01-21 | 2026-02-21 |
+| Source URLs prüfen | Quarterly | 2026-01-21 | 2026-04-21 |
 
 ---
 
-**Registry Version:** 1.0.0
+**Registry Version:** 1.1.0

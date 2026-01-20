@@ -2,6 +2,41 @@
 
 > **Version:** 1.1.0 | **Java:** 25 | **Main:** `com.gorduan.hytale.playermorphtomob.PlayerMorphToMobPlugin`
 
+## GitHub Repository
+
+**URL:** https://github.com/gorduan/Heytale-PlayerMorph
+
+### Issue-Driven Development
+
+Alle Aufgaben werden über GitHub Issues verwaltet. Vor jeder Arbeit:
+
+```bash
+# Status prüfen (PFLICHT vor jeder Aufgabe!)
+git log --oneline -5
+gh issue list --state open -R gorduan/Heytale-PlayerMorph
+```
+
+### Wichtige gh Befehle
+
+```bash
+# Issue erstellen
+gh issue create -t "feat: Titel" -b "Beschreibung" -l "enhancement" -R gorduan/Heytale-PlayerMorph
+
+# Issue bearbeiten (Branch erstellen)
+gh issue develop 123 -c --base main -R gorduan/Heytale-PlayerMorph
+
+# Issue kommentieren
+gh issue comment 123 -b "Status Update" -R gorduan/Heytale-PlayerMorph
+
+# PR erstellen (IMMER einzeilig!)
+gh pr create -t "feat(scope): description (#123)" -b "Fixes #123" -R gorduan/Heytale-PlayerMorph
+
+# PR mergen
+gh pr merge 123 --squash --delete-branch -R gorduan/Heytale-PlayerMorph
+```
+
+> **WICHTIG:** Alle `gh` Befehle MÜSSEN einzeilig sein (keine Backslash-Continuations)!
+
 ## Quick Reference
 
 ```bash
@@ -21,8 +56,6 @@ java -XX:AOTCache=HytaleServer.aot -jar HytaleServer.jar --assets Assets.zip
 | Server | `D:\Program Files\Hytale\LocalServer\Server` |
 | Plugins | `D:\Program Files\Hytale\LocalServer\Server\Plugins` |
 | Echte API | `E:\Claude Projekte\Hytale\HytaleServer-decompiled` |
-| Referenz-Plugin | `E:\Claude Projekte\Hytale\x3Dev-Waypoints-1.2.0` |
-| GitHub | https://github.com/gorduan/Heytale-PlayerMorph |
 
 ## Kritische Regeln
 
@@ -38,6 +71,7 @@ java -XX:AOTCache=HytaleServer.aot -jar HytaleServer.jar --assets Assets.zip
 | `/loopfix` | Debug-Zyklus: Build → Deploy → Server → Logs → Fix → Repeat |
 | `/build` | Plugin kompilieren |
 | `/deploy` | Plugin deployen und Server neustarten |
+| `/fix-issue` | GitHub Issue bearbeiten und PR erstellen |
 
 | Agent | Wann nutzen |
 |-------|-------------|
@@ -53,15 +87,12 @@ java -XX:AOTCache=HytaleServer.aot -jar HytaleServer.jar --assets Assets.zip
 |---------|--------|
 | [code-patterns.md](.claude/context/code-patterns.md) | Kritische Code-Patterns & Don'ts |
 | [task-protocol.md](.claude/context/task-protocol.md) | Task-Completion Protocol |
-| [git-workflow.md](.claude/context/git-workflow.md) | Git & Conventional Commits |
+| [git-workflow.md](.claude/context/git-workflow.md) | Git, Conventional Commits & GitHub Issues |
 
 | Docs | Inhalt |
 |------|--------|
 | [api-patterns.md](.claude/docs/api-patterns.md) | Verifizierte API-Patterns |
 | [troubleshooting.md](.claude/docs/troubleshooting.md) | Fehler & Lösungen |
-| [entity-morphing.md](.claude/docs/entity-morphing.md) | Model-Änderung via ECS |
-| [ui-system.md](.claude/docs/ui-system.md) | UI-System |
-| [plugin-api.md](.claude/docs/plugin-api.md) | Plugin-API |
 
 ## Projektstruktur
 
@@ -81,8 +112,9 @@ java -XX:AOTCache=HytaleServer.aot -jar HytaleServer.jar --assets Assets.zip
 ## Pre-Task Checklist
 
 ```
+[ ] gh issue list prüfen (offene Issues)
+[ ] git log prüfen (letzte Commits)
 [ ] Relevante Docs lesen
-[ ] Passenden Subagent identifizieren
 [ ] Bei API-Fragen: HytaleServer-decompiled prüfen
 ```
 
@@ -91,9 +123,10 @@ java -XX:AOTCache=HytaleServer.aot -jar HytaleServer.jar --assets Assets.zip
 ```
 [ ] Build erfolgreich (.\build.bat)
 [ ] Server-Test ohne Errors
-[ ] Git commit mit Conventional Commits
-[ ] Docs aktualisiert (falls nötig)
+[ ] Git commit mit Conventional Commits (feat/fix/refactor)
+[ ] Issue referenzieren in Commit (#123)
+[ ] PR erstellen falls Feature-Branch
 ```
 
 ---
-**Last Updated:** 2025-01-20
+**Last Updated:** 2026-01-21
