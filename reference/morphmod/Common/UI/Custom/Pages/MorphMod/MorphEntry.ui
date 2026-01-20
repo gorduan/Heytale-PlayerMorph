@@ -1,0 +1,15 @@
+Button {
+  Anchor: (Height: 40, Bottom: 5);
+  FlexWeight: 1;
+  Background: (Color: #444444FF);
+  LayoutMode: Left;
+  Padding: (Left: 10, Right: 10);
+
+  Label #MorphName {
+    Text: "Unknown";
+    Style: (
+      FontSize: 16,
+      TextColor: #EEEEEE
+    );
+  }
+}

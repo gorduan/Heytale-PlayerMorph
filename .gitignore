@@ -1,0 +1,36 @@
+# Build Output
+build/
+*.jar
+!stubs/**/*.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local Config
+.claude/settings.local.json
+
+# Java
+*.class
+*.log
+*.ctxt
+.mtj.tmp/
+hs_err_pid*
+replay_pid*
+
+# Temporary Files
+*.tmp
+*.bak
+*~
+stubs-files.txt
+src-files.txt
+nul
+reference/nul

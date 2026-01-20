@@ -1,0 +1,34 @@
+$C = "../Common.ui";
+
+Group {
+  LayoutMode: Top;
+  Background: $C.@InputBoxBackground;
+  FlexWeight: 1;
+  Padding: (Left: 10, Top: 8, Bottom: 8);
+  Anchor: (Bottom: 5);
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Height: 28);
+
+    Label #MorphName {
+      Style: (
+        FontSize: 16,
+        RenderBold: true,
+        TextColor: #ffffff
+      );
+      Padding: (Right: 8);
+    }
+
+    Label {
+      FlexWeight: 1;
+    }
+
+    $C.@TextButton #SelectButton {
+      Anchor: (Right: 4, Vertical: 0, Height: 24);
+      Padding: (Left: 10, Right: 10, Top: 2, Bottom: 2);
+      Text: "Select";
+      Overscroll: false;
+    }
+  }
+}

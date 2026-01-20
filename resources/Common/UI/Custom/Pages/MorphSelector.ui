@@ -1,0 +1,45 @@
+$C = "../Common.ui";
+
+$C.@Container {
+  Anchor: (Left: 50, Top: 50, Width: 350, Height: 500);
+
+  #Title {
+    Group {
+      LayoutMode: Left;
+
+      $C.@Title {
+        @Text = "Morph Selection";
+      }
+    }
+  }
+
+  #Content {
+    LayoutMode: Top;
+
+    Group #MorphListContainer {
+      Anchor: (Width: 330, Top: 10);
+      FlexWeight: 1;
+      LayoutMode: TopScrolling;
+      Padding: (Left: 7);
+      ScrollbarStyle: $C.@DefaultScrollbarStyle;
+
+      Group #MorphList {
+        LayoutMode: Top;
+      }
+    }
+
+    Group {
+      LayoutMode: Left;
+      Anchor: (Top: 10, Bottom: 10);
+      Padding: (Left: 10);
+
+      $C.@TextButton #CloseButton {
+        Anchor: (Height: 32);
+        Padding: (Left: 16, Right: 16, Top: 8, Bottom: 8);
+        Text: "Close";
+      }
+    }
+  }
+}
+
+$C.@BackButton {}
