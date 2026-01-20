@@ -21,7 +21,8 @@ import java.util.logging.Level;
 
 /**
  * Manages morph operations for players.
- * Uses ModelAsset to change player models to mob models.
+ * Handles applying mob models to players, resetting to original models,
+ * and persisting morph state across sessions.
  */
 public class MorphManager {
 
@@ -51,9 +52,9 @@ public class MorphManager {
     }
 
     /**
-     * Initialisiert den MorphManager mit Persistenz-Storage.
+     * Initializes the MorphManager with persistence storage.
      *
-     * @param dataFolder Der Ordner für Plugin-Daten
+     * @param dataFolder The folder for plugin data
      */
     public void initialize(@Nonnull Path dataFolder) {
         this.storage = new MorphStorage(dataFolder);
@@ -61,11 +62,11 @@ public class MorphManager {
     }
 
     /**
-     * Applies a morph to a player.
-     * VERIFIZIERT durch morphmod-1.1.0: Verwendet Model.createUnitScaleModel()
+     * Applies a morph to a player by replacing their model with a mob model.
+     * Creates a unit-scale model from the specified ModelAsset.
      *
-     * @param playerRef   The player reference
-     * @param modelId     The model asset ID
+     * @param playerRef The player reference
+     * @param modelId   The model asset ID to morph into
      * @return true if morph was applied successfully
      */
     public boolean applyMorph(@Nonnull PlayerRef playerRef, @Nonnull String modelId) {
@@ -85,7 +86,7 @@ public class MorphManager {
             return false;
         }
 
-        // Get player skin component for reset
+        // Get player skin component for later reset
         PlayerSkinComponent skinComponent = store.getComponent(ref, PlayerSkinComponent.getComponentType());
 
         // Store original data if not already morphed
@@ -97,28 +98,28 @@ public class MorphManager {
             activeMorphs.put(playerName, morphData);
         }
 
-        // Get the model asset
+        // Get the model asset from registry
         ModelAsset modelAsset = ModelAsset.getAssetMap().getAsset(modelId);
         if (modelAsset == null) {
             LOGGER.at(Level.WARNING).log("Cannot morph: Model asset '%s' not found", modelId);
             return false;
         }
 
-        // VERIFIZIERT durch morphmod: Model.createUnitScaleModel() verwenden!
-        // NICHT Model.createScaledModel() - das ist ein anderer Anwendungsfall
+        // Create unit-scale model (preserves original model proportions)
         Model newModel = Model.createUnitScaleModel(modelAsset);
         if (newModel == null) {
             LOGGER.at(Level.WARNING).log("Cannot morph: Failed to create model for '%s'", modelId);
             return false;
         }
 
+        // Apply the new model via ECS
         store.putComponent(ref, ModelComponent.getComponentType(), new ModelComponent(newModel));
 
         // Update morph data with current model
         MorphData morphData = activeMorphs.get(playerName);
         morphData.setCurrentModelId(modelId);
 
-        // Persistenz: Morph speichern
+        // Persist morph to storage
         if (storage != null) {
             storage.saveMorph(playerName, modelId);
         }
@@ -128,11 +129,9 @@ public class MorphManager {
     }
 
     /**
-     * Resets a player's morph back to their original model.
-     * VERIFIZIERT durch HytaleServer-decompiled ModelCommand.ModelResetCommand:
-     * - CosmeticsModule.get().createModel(playerSkin) für neues Player-Model
-     * - putComponent() mit neuem Model (NICHT removeComponent!)
-     * - setNetworkOutdated() für Client-Sync
+     * Resets a player's morph back to their original player model.
+     * Uses CosmeticsModule to create a new model from the player's skin,
+     * then applies it via putComponent (not removeComponent).
      *
      * @param playerRef The player reference
      * @return true if reset was successful
@@ -153,15 +152,14 @@ public class MorphManager {
             return false;
         }
 
-        // Get PlayerSkinComponent for reset
+        // Get PlayerSkinComponent for model reset
         PlayerSkinComponent skinComponent = store.getComponent(ref, PlayerSkinComponent.getComponentType());
         if (skinComponent == null) {
             LOGGER.at(Level.WARNING).log("Cannot reset morph: PlayerSkinComponent not found for %s", playerName);
             return false;
         }
 
-        // VERIFIZIERT durch HytaleServer ModelResetCommand:
-        // Create new model from player skin using CosmeticsModule
+        // Create new player model from skin using CosmeticsModule
         CosmeticsModule cosmeticsModule = CosmeticsModule.get();
         Model newModel = cosmeticsModule.createModel(skinComponent.getPlayerSkin());
         if (newModel == null) {
@@ -169,15 +167,15 @@ public class MorphManager {
             return false;
         }
 
-        // Set the new player model
+        // Apply the player model via ECS
         store.putComponent(ref, ModelComponent.getComponentType(), new ModelComponent(newModel));
 
-        // Mark skin as outdated for network sync
+        // Mark skin as outdated for network sync to other clients
         skinComponent.setNetworkOutdated();
 
         activeMorphs.remove(playerName);
 
-        // Persistenz: Morph löschen
+        // Remove from persistent storage
         if (storage != null) {
             storage.removeMorph(playerName);
         }
@@ -202,8 +200,8 @@ public class MorphManager {
     }
 
     /**
-     * Forces removal of morph data without restoring (for disconnects).
-     * Behält den gespeicherten Morph für die nächste Session.
+     * Forces removal of morph data without restoring the model.
+     * Used for player disconnects - keeps persisted morph for next session.
      */
     public void forceRemove(@Nonnull String playerName) {
         activeMorphs.remove(playerName);
@@ -211,11 +209,11 @@ public class MorphManager {
     }
 
     /**
-     * Prüft ob ein Spieler einen gespeicherten Morph hat und stellt ihn wieder her.
-     * Wird beim PlayerConnect aufgerufen.
+     * Checks if a player has a saved morph and restores it.
+     * Called on PlayerConnect to restore morphs across sessions.
      *
-     * @param playerRef Der Spieler
-     * @return true wenn ein Morph wiederhergestellt wurde
+     * @param playerRef The player
+     * @return true if a morph was restored
      */
     public boolean restoreSavedMorph(@Nonnull PlayerRef playerRef) {
         if (storage == null) {
@@ -235,7 +233,7 @@ public class MorphManager {
     }
 
     /**
-     * Prüft ob ein Spieler einen gespeicherten Morph hat.
+     * Checks if a player has a saved morph in persistent storage.
      */
     public boolean hasSavedMorph(@Nonnull String playerName) {
         return storage != null && storage.hasSavedMorph(playerName);
@@ -243,8 +241,8 @@ public class MorphManager {
 
     /**
      * Returns a list of all available mob model IDs.
-     * Dynamically loads models from Game-Assets including mods.
-     * Results are cached for performance.
+     * Dynamically loads models from the game's ModelAsset registry.
+     * Results are cached for 1 minute to improve performance.
      */
     public List<String> getAvailableMobs() {
         long now = System.currentTimeMillis();
@@ -262,10 +260,9 @@ public class MorphManager {
                 LOGGER.at(Level.WARNING).log("ModelAsset registry is empty, using fallback list");
                 cachedMobList = new ArrayList<>(FALLBACK_MOBS);
             } else {
-                // Filter and sort the model IDs
+                // Filter out player and internal models, then sort
                 cachedMobList = new ArrayList<>();
                 for (String modelId : modelIds) {
-                    // Skip player-related models and internal models
                     if (!isPlayerModel(modelId) && !isInternalModel(modelId)) {
                         cachedMobList.add(modelId);
                     }
@@ -286,7 +283,7 @@ public class MorphManager {
     }
 
     /**
-     * Checks if a model ID represents a player model.
+     * Checks if a model ID represents a player model (excluded from mob list).
      */
     private boolean isPlayerModel(String modelId) {
         String lower = modelId.toLowerCase();
@@ -294,7 +291,7 @@ public class MorphManager {
     }
 
     /**
-     * Checks if a model ID is an internal/system model.
+     * Checks if a model ID is an internal/system model (excluded from mob list).
      */
     private boolean isInternalModel(String modelId) {
         String lower = modelId.toLowerCase();
@@ -312,14 +309,14 @@ public class MorphManager {
     }
 
     /**
-     * Returns available model assets from the game.
+     * Returns all model asset keys from the game registry.
      */
     public Set<String> getGameModelAssets() {
         return ModelAsset.getAssetMap().getAssetMap().keySet();
     }
 
     /**
-     * Checks if a model ID is valid.
+     * Checks if a model ID exists in the game's asset registry.
      */
     public boolean isValidModel(@Nonnull String modelId) {
         return ModelAsset.getAssetMap().getAsset(modelId) != null;
@@ -334,6 +331,7 @@ public class MorphManager {
 
     /**
      * Cleanup method called on plugin disable.
+     * Clears all active morph data from memory.
      */
     public void cleanup() {
         LOGGER.at(Level.INFO).log("Cleaning up %d active morphs", activeMorphs.size());

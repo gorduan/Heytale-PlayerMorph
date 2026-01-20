@@ -8,10 +8,7 @@ import javax.annotation.Nonnull;
 
 /**
  * Permission constants and helper methods for PlayerMorphToMob.
- *
- * VERIFIZIERT durch morphmod-1.1.0:
- * - Player.hasPermission() kann direkt verwendet werden
- * - PermissionsModule.checkPermission() als Alternative
+ * Provides both PlayerRef and Player overloads for flexibility.
  */
 public final class Permissions {
 
@@ -50,7 +47,6 @@ public final class Permissions {
     }
 
     /**
-     * VERIFIZIERT durch morphmod-1.1.0:
      * Checks permission directly on Player object.
      */
     public static boolean hasPermission(@Nonnull Player player, @Nonnull String permission) {
@@ -65,7 +61,7 @@ public final class Permissions {
     }
 
     /**
-     * VERIFIZIERT: Player-Überladung für direkten Zugriff.
+     * Checks if a player can morph themselves (Player overload).
      */
     public static boolean canMorphSelf(@Nonnull Player player) {
         return hasPermission(player, MORPH_SELF) || hasPermission(player, ADMIN);
@@ -79,7 +75,7 @@ public final class Permissions {
     }
 
     /**
-     * VERIFIZIERT: Player-Überladung für direkten Zugriff.
+     * Checks if a player can morph other players (Player overload).
      */
     public static boolean canMorphOthers(@Nonnull Player player) {
         return hasPermission(player, MORPH_OTHERS) || hasPermission(player, ADMIN);
@@ -93,7 +89,7 @@ public final class Permissions {
     }
 
     /**
-     * VERIFIZIERT: Player-Überladung für direkten Zugriff.
+     * Checks if a player can toggle nametag visibility (Player overload).
      */
     public static boolean canToggleNametag(@Nonnull Player player) {
         return hasPermission(player, NAMETAG_TOGGLE) || hasPermission(player, ADMIN);
@@ -107,7 +103,7 @@ public final class Permissions {
     }
 
     /**
-     * VERIFIZIERT: Player-Überladung für direkten Zugriff.
+     * Checks if a player can access the morph GUI (Player overload).
      */
     public static boolean canUseGUI(@Nonnull Player player) {
         return hasPermission(player, GUI) || hasPermission(player, ADMIN);
@@ -121,7 +117,7 @@ public final class Permissions {
     }
 
     /**
-     * VERIFIZIERT: Player-Überladung für direkten Zugriff.
+     * Checks if a player is an admin (Player overload).
      */
     public static boolean isAdmin(@Nonnull Player player) {
         return hasPermission(player, ADMIN);
@@ -135,7 +131,7 @@ public final class Permissions {
     }
 
     /**
-     * VERIFIZIERT: Player-Überladung für direkten Zugriff.
+     * Checks if a player can use the base command (Player overload).
      */
     public static boolean canUseCommand(@Nonnull Player player) {
         return hasPermission(player, COMMAND) || hasPermission(player, ADMIN);

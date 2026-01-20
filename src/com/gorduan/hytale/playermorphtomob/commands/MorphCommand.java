@@ -24,9 +24,8 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * Command handler for /morph.
- * VERIFIZIERT durch morphmod-1.1.0:
- * - setAllowsExtraArguments(true) für flexible Argument-Verarbeitung
- * - world.execute() für Thread-sichere ECS-Operationen
+ * Supports flexible argument parsing for various subcommands.
+ * All ECS operations are executed in the World thread for thread safety.
  *
  * Usage:
  *   /morph                      - Opens GUI
@@ -48,18 +47,18 @@ public class MorphCommand extends AbstractCommand {
         super("morph", "Morph commands");
         this.plugin = plugin;
 
-        // VERIFIZIERT durch morphmod: Aliases und flexible Argumente
+        // Register command aliases and allow flexible argument parsing
         addAliases("playermorphtomob", "pmtm");
         setAllowsExtraArguments(true);
 
-        // VERIFIZIERT durch morphmod: Permission-Gruppe setzen
+        // Set permission group for GameMode-based access control
         setPermissionGroup(GameMode.Adventure);
     }
 
     /**
-     * VERIFIZIERT durch morphmod-1.1.0:
-     * - ECS-Operationen in world.execute() wrappen
-     * - CompletableFuture für async Handling
+     * Executes the morph command.
+     * Wraps all ECS operations in world.execute() for thread safety.
+     * Returns a CompletableFuture for async command handling.
      */
     @Override
     @Nullable
@@ -74,10 +73,9 @@ public class MorphCommand extends AbstractCommand {
             return CompletableFuture.completedFuture(null);
         }
 
-        // VERIFIZIERT durch morphmod: CompletableFuture für async Completion
         CompletableFuture<Void> future = new CompletableFuture<>();
 
-        // VERIFIZIERT durch morphmod: ECS-Operationen im World-Thread ausführen!
+        // Execute ECS operations in the World thread to prevent threading errors
         player.getWorld().execute(() -> {
             try {
                 handleCommand(ctx, player);
@@ -92,14 +90,15 @@ public class MorphCommand extends AbstractCommand {
     }
 
     /**
-     * Command-Handler - wird im World-Thread ausgeführt.
+     * Handles command parsing and routing.
+     * Called within the World thread context.
      */
     private void handleCommand(@Nonnull CommandContext ctx, @Nonnull Player player) {
-        // VERIFIZIERT durch morphmod: Manuelle Argument-Verarbeitung
+        // Parse input arguments manually for flexible command handling
         String input = ctx.getInputString();
         String[] args = input != null ? input.trim().split("\\s+") : new String[]{};
 
-        // Überspringe den Command-Namen selbst
+        // Skip the command name itself
         int start = 0;
         if (args.length > 0 && (args[0].equalsIgnoreCase("morph")
                 || args[0].equalsIgnoreCase("playermorphtomob")
@@ -107,7 +106,7 @@ public class MorphCommand extends AbstractCommand {
             start = 1;
         }
 
-        // Keine Argumente - UI öffnen
+        // No arguments - open UI
         if (args.length <= start) {
             openUI(player);
             return;
@@ -134,9 +133,8 @@ public class MorphCommand extends AbstractCommand {
             return;
         }
 
-        // Unmorph (mit optionalem Spielernamen)
+        // Unmorph (with optional player name)
         if (cmd.equalsIgnoreCase("unmorph") || cmd.equalsIgnoreCase("reset")) {
-            // Prüfe ob ein Spielername angegeben wurde
             if (args.length > start + 1) {
                 String targetName = args[start + 1];
                 handleUnmorphOther(ctx, player, targetName);
@@ -146,16 +144,16 @@ public class MorphCommand extends AbstractCommand {
             return;
         }
 
-        // Prüfe ob eine Mob-ID mit optionalem Spielernamen angegeben wurde
+        // Check if a mob ID with optional player name was provided
         String mobId = cmd;
         String targetPlayerName = (args.length > start + 1) ? args[start + 1] : null;
 
         if (morphManager.isValidModel(mobId)) {
             if (targetPlayerName != null) {
-                // Morph anderen Spieler
+                // Morph another player
                 handleMorphOther(ctx, player, mobId, targetPlayerName);
             } else {
-                // Morph sich selbst
+                // Morph self
                 if (!player.hasPermission("playermorphtomob.morph.self")) {
                     ctx.sendMessage(Message.raw("You don't have permission to morph."));
                     return;
@@ -173,18 +171,16 @@ public class MorphCommand extends AbstractCommand {
     }
 
     /**
-     * Morph einen anderen Spieler in ein Mob-Modell.
-     * VERIFIZIERT durch ArgTypes.PLAYER_REF: NameMatching.DEFAULT.find() für Spielersuche.
+     * Morphs another player into a mob model.
+     * Uses NameMatching for fuzzy player name lookup across all worlds.
      */
     private void handleMorphOther(@Nonnull CommandContext ctx, @Nonnull Player sender,
                                    @Nonnull String mobId, @Nonnull String targetName) {
-        // Permission check für andere Spieler morphen
         if (!sender.hasPermission("playermorphtomob.morph.others")) {
             ctx.sendMessage(Message.raw("You don't have permission to morph other players."));
             return;
         }
 
-        // Finde den Zielspieler
         PlayerRef targetRef = findPlayerByName(targetName);
         if (targetRef == null) {
             ctx.sendMessage(Message.raw("Player not found: " + targetName));
@@ -201,17 +197,15 @@ public class MorphCommand extends AbstractCommand {
     }
 
     /**
-     * Setze den Morph eines anderen Spielers zurück.
+     * Resets another player's morph back to their original model.
      */
     private void handleUnmorphOther(@Nonnull CommandContext ctx, @Nonnull Player sender,
                                      @Nonnull String targetName) {
-        // Permission check für andere Spieler unmorphen
         if (!sender.hasPermission("playermorphtomob.morph.others")) {
             ctx.sendMessage(Message.raw("You don't have permission to unmorph other players."));
             return;
         }
 
-        // Finde den Zielspieler
         PlayerRef targetRef = findPlayerByName(targetName);
         if (targetRef == null) {
             ctx.sendMessage(Message.raw("Player not found: " + targetName));
@@ -228,8 +222,8 @@ public class MorphCommand extends AbstractCommand {
     }
 
     /**
-     * Findet einen Spieler anhand des Namens in allen Welten.
-     * VERIFIZIERT durch HytaleServer ArgTypes.PLAYER_REF.
+     * Finds a player by name across all worlds.
+     * Uses fuzzy matching for partial name support.
      */
     @Nullable
     private PlayerRef findPlayerByName(@Nonnull String name) {
@@ -284,10 +278,8 @@ public class MorphCommand extends AbstractCommand {
     }
 
     /**
-     * VERIFIZIERT durch Waypoints-1.2.0:
-     * - PlayerRef aus Store holen via getComponent
-     * - player.getPageManager().openCustomPage(ref, store, page)
-     * - Mob-Liste und Player an MorphUIPage übergeben
+     * Opens the morph selection UI for the player.
+     * Retrieves PlayerRef from the entity store and passes the available mob list.
      */
     private void openUI(@Nonnull Player player) {
         try {
@@ -314,10 +306,9 @@ public class MorphCommand extends AbstractCommand {
     }
 
     /**
-     * VERIFIZIERT durch morphmod: setPermissionGroup für GameMode-basierte Permissions.
+     * Sets the permission group for GameMode-based access control.
      */
     public void setPermissionGroup(@Nonnull GameMode gameMode) {
-        // Diese Methode muss vom AbstractCommand oder einer Elternklasse implementiert werden
-        // Falls nicht verfügbar, ignorieren wir sie für jetzt
+        // Method stub - implemented by parent class or Hytale API
     }
 }

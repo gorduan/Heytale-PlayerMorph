@@ -22,16 +22,14 @@ import java.util.logging.Level;
 
 /**
  * Interactive UI page for the morph selector.
- * VERIFIZIERT durch Waypoints-1.2.0 und hytale-docs.pages.dev:
- * - Dynamische Liste mit append(selector, path)
- * - EventData mit new EventData().append() für Events
- * - UI-Pfade relativ zu Common/UI/Custom/
+ * Displays a scrollable list of available mob models and handles selection events.
+ * UI files are loaded from Common/UI/Custom/ relative path.
  */
 public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
 
     private static final HytaleLogger LOGGER = HytaleLogger.get("MorphUIPage");
 
-    // VERIFIZIERT durch Waypoints: Pfade relativ zu Common/UI/Custom/
+    // UI paths relative to Common/UI/Custom/
     private static final String UI_PATH = "Pages/MorphSelector.ui";
     private static final String ENTRY_PATH = "Pages/MorphEntry.ui";
 
@@ -40,9 +38,12 @@ public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
     private final List<String> morphList;
 
     /**
-     * VERIFIZIERT durch Waypoints-1.2.0:
-     * - CustomPageLifetime.CanDismiss
-     * - Player-Objekt für spätere Operationen speichern
+     * Creates a new morph UI page.
+     *
+     * @param plugin    The plugin instance
+     * @param playerRef The player reference for page ownership
+     * @param player    The player object for sending messages
+     * @param morphList List of available mob model IDs
      */
     public MorphUIPage(@Nonnull PlayerMorphToMobPlugin plugin,
                        @Nonnull PlayerRef playerRef,
@@ -55,11 +56,9 @@ public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
     }
 
     /**
-     * VERIFIZIERT durch Waypoints-1.2.0:
-     * - commands.append(uiPath) lädt die Haupt-UI
-     * - commands.append(selector, entryPath) fügt Einträge in Container
-     * - commands.set(selector + " #Element.Property", value) setzt Werte
-     * - events.addEventBinding() mit new EventData().append() für Events
+     * Builds the UI by loading the main page and dynamically adding mob entries.
+     * Uses append() to add entries to the list container and set() for element properties.
+     * Event bindings are added for each selectable entry.
      */
     @Override
     public void build(@Nonnull Ref<EntityStore> ref,
@@ -67,10 +66,10 @@ public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
                       @Nonnull UIEventBuilder events,
                       @Nonnull Store<EntityStore> store) {
 
-        // UI-Datei laden
+        // Load main UI file
         commands.append(UI_PATH);
 
-        // Close-Button Event
+        // Close button event binding
         events.addEventBinding(
                 CustomUIEventBindingType.Activating,
                 "#CloseButton",
@@ -78,7 +77,7 @@ public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
                 false
         );
 
-        // "Unmorph" Eintrag als erstes
+        // Add "Unmorph" entry first
         commands.append("#MorphList", ENTRY_PATH);
         String unmorphSelector = "#MorphList[0]";
         commands.set(unmorphSelector + " #MorphName.Text", "Unmorph (Reset)");
@@ -90,7 +89,7 @@ public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
                 false
         );
 
-        // Mob-Einträge dynamisch hinzufügen
+        // Dynamically add mob entries
         for (int i = 0; i < morphList.size(); i++) {
             String morphId = morphList.get(i);
             commands.append("#MorphList", ENTRY_PATH);
@@ -109,10 +108,8 @@ public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
     }
 
     /**
-     * VERIFIZIERT durch Waypoints-1.2.0 und hytale-docs:
-     * - MorphId aus EventData lesen
-     * - "unmorph" für Reset-Aktion
-     * - close() nach erfolgreicher Aktion
+     * Handles UI events when the player interacts with the page.
+     * Processes morph selection and close button actions.
      */
     @Override
     public void handleDataEvent(@Nonnull Ref<EntityStore> ref,
@@ -122,23 +119,23 @@ public class MorphUIPage extends InteractiveCustomUIPage<MorphUIEventData> {
 
         MorphManager morphManager = plugin.getMorphManager();
 
-        // Action-basierte Events (Close Button)
+        // Handle close button action
         if ("close".equalsIgnoreCase(data.action)) {
             close();
             return;
         }
 
-        // MorphId-basierte Events (Klick auf Listeneintrag)
+        // Handle morph selection
         if (data.morphId != null && !data.morphId.isEmpty()) {
             if ("unmorph".equalsIgnoreCase(data.morphId)) {
-                // Reset morph
+                // Reset morph to original player model
                 if (morphManager.resetMorph(playerRef)) {
                     player.sendMessage(Message.raw("Morph reset."));
                 } else {
                     player.sendMessage(Message.raw("You are not morphed."));
                 }
             } else {
-                // Apply morph
+                // Apply selected morph
                 if (morphManager.applyMorph(playerRef, data.morphId)) {
                     player.sendMessage(Message.raw("Morphed into " + data.morphId));
                 } else {

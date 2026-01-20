@@ -11,10 +11,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 /**
- * Verwaltet die Persistenz von Morph-Daten in einer Properties-Datei.
- * Speichert Morphs im Format: username=modelId|scale
- *
- * VERIFIZIERT durch PMA-1.0.3: Ähnliches Pattern für models.properties
+ * Manages persistence of morph data using a properties file.
+ * Stores morphs in format: username=modelId|scale
  */
 public class MorphStorage {
 
@@ -34,7 +32,7 @@ public class MorphStorage {
     }
 
     /**
-     * Lädt die gespeicherten Morphs aus der Datei.
+     * Loads saved morphs from the data file.
      */
     public void load() {
         if (!Files.exists(dataFile)) {
@@ -51,11 +49,11 @@ public class MorphStorage {
     }
 
     /**
-     * Speichert alle Morphs in die Datei.
+     * Saves all morphs to the data file.
      */
     public void save() {
         try {
-            // Stelle sicher dass der Ordner existiert
+            // Ensure data folder exists
             if (!Files.exists(dataFolder)) {
                 Files.createDirectories(dataFolder);
             }
@@ -70,11 +68,11 @@ public class MorphStorage {
     }
 
     /**
-     * Speichert einen Morph für einen Spieler.
+     * Saves a morph for a player with scale.
      *
-     * @param username Der Spielername
-     * @param modelId Die Model-ID
-     * @param scale Die Skalierung (1.0 für Standard)
+     * @param username The player username
+     * @param modelId  The model ID
+     * @param scale    The scale factor (1.0 for default)
      */
     public void saveMorph(@Nonnull String username, @Nonnull String modelId, float scale) {
         String value = modelId + SEPARATOR + scale;
@@ -84,14 +82,14 @@ public class MorphStorage {
     }
 
     /**
-     * Speichert einen Morph mit Standardskalierung.
+     * Saves a morph with default scale.
      */
     public void saveMorph(@Nonnull String username, @Nonnull String modelId) {
         saveMorph(username, modelId, 1.0f);
     }
 
     /**
-     * Entfernt den gespeicherten Morph eines Spielers.
+     * Removes a player's saved morph.
      */
     public void removeMorph(@Nonnull String username) {
         if (morphData.remove(username.toLowerCase()) != null) {
@@ -101,14 +99,14 @@ public class MorphStorage {
     }
 
     /**
-     * Prüft ob ein Spieler einen gespeicherten Morph hat.
+     * Checks if a player has a saved morph.
      */
     public boolean hasSavedMorph(@Nonnull String username) {
         return morphData.containsKey(username.toLowerCase());
     }
 
     /**
-     * Gibt die gespeicherte Model-ID zurück.
+     * Returns the saved model ID for a player.
      */
     @Nullable
     public String getSavedModelId(@Nonnull String username) {
@@ -117,13 +115,13 @@ public class MorphStorage {
 
         int separatorIndex = value.indexOf(SEPARATOR);
         if (separatorIndex == -1) {
-            return value; // Alte Format-Kompatibilität (nur modelId)
+            return value; // Legacy format compatibility (modelId only)
         }
         return value.substring(0, separatorIndex);
     }
 
     /**
-     * Gibt die gespeicherte Skalierung zurück.
+     * Returns the saved scale for a player.
      */
     public float getSavedScale(@Nonnull String username) {
         String value = morphData.getProperty(username.toLowerCase());
@@ -131,7 +129,7 @@ public class MorphStorage {
 
         int separatorIndex = value.indexOf(SEPARATOR);
         if (separatorIndex == -1) {
-            return 1.0f; // Standard wenn kein Scale gespeichert
+            return 1.0f; // Default if no scale stored
         }
 
         try {
@@ -142,7 +140,7 @@ public class MorphStorage {
     }
 
     /**
-     * Gibt die Anzahl der gespeicherten Morphs zurück.
+     * Returns the count of stored morphs.
      */
     public int getStoredMorphCount() {
         return morphData.size();

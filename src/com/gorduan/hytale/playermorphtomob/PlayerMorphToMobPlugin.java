@@ -45,8 +45,8 @@ public class PlayerMorphToMobPlugin extends JavaPlugin {
     }
 
     /**
-     * VERIFIZIERT durch morphmod-1.1.0:
-     * setup() wird für Registrierung von Commands und Events verwendet.
+     * Called during plugin setup phase.
+     * Registers commands, events, and initializes the morph manager.
      */
     @Override
     protected void setup() {
@@ -60,11 +60,11 @@ public class PlayerMorphToMobPlugin extends JavaPlugin {
         Path dataFolder = Path.of("Mods", "PlayerMorphToMob");
         morphManager.initialize(dataFolder);
 
-        // VERIFIZIERT durch morphmod: Command mit Plugin-Referenz registrieren
+        // Register morph command with plugin reference
         MorphCommand morphCommand = new MorphCommand(this);
         getCommandRegistry().registerCommand(morphCommand);
 
-        // Register event listeners
+        // Register event listeners for morph persistence
         getEventRegistry().registerGlobal(PlayerConnectEvent.class, this::onPlayerConnect);
         getEventRegistry().registerGlobal(PlayerDisconnectEvent.class, this::onPlayerDisconnect);
 
@@ -90,10 +90,9 @@ public class PlayerMorphToMobPlugin extends JavaPlugin {
     }
 
     /**
-     * Wird aufgerufen wenn ein Spieler sich verbindet.
-     * Stellt gespeicherte Morphs nach einer kurzen Verzögerung wieder her.
-     * VERIFIZIERT durch PMA-1.0.3: Verzögerung nötig damit Entity vollständig geladen ist.
-     * KRITISCH: Die Morph-Operation muss im World-Thread ausgeführt werden!
+     * Called when a player connects.
+     * Restores saved morphs after a short delay to ensure the entity is fully loaded.
+     * All ECS operations are executed in the World thread for thread safety.
      */
     private void onPlayerConnect(@Nonnull PlayerConnectEvent event) {
         PlayerRef playerRef = event.getPlayerRef();
@@ -102,16 +101,16 @@ public class PlayerMorphToMobPlugin extends JavaPlugin {
         if (morphManager.hasSavedMorph(playerName)) {
             getLogger().at(Level.INFO).log("Player %s has saved morph, scheduling restoration...", playerName);
 
-            // Verzögerung damit die Entity vollständig geladen ist
+            // Delay restoration to ensure entity is fully loaded
             scheduler.schedule(() -> {
                 try {
-                    // KRITISCH: ECS-Operationen müssen im World-Thread laufen!
                     Ref<EntityStore> ref = playerRef.getReference();
                     if (ref == null || !ref.isValid()) {
                         getLogger().at(Level.WARNING).log("Cannot restore morph for %s: Invalid reference", playerName);
                         return;
                     }
 
+                    // Execute ECS operations in World thread
                     World world = ref.getStore().getExternalData().getWorld();
                     world.execute(() -> {
                         try {
@@ -131,6 +130,10 @@ public class PlayerMorphToMobPlugin extends JavaPlugin {
         }
     }
 
+    /**
+     * Called when a player disconnects.
+     * Cleans up in-memory morph data while preserving persisted state.
+     */
     private void onPlayerDisconnect(@Nonnull PlayerDisconnectEvent event) {
         String playerName = event.getPlayerRef().getUsername();
         if (morphManager.isMorphed(playerName)) {
