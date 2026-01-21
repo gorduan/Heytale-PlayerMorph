@@ -351,7 +351,8 @@ public class MorphManager {
         String bestMatch = null;
         for (String modelId : modelIds) {
             String modelLower = modelId.toLowerCase();
-            if (modelLower.startsWith(inputLower) || modelLower.contains("_" + inputLower)) {
+            // Match: starts with input, contains input after underscore, or contains input anywhere
+            if (modelLower.startsWith(inputLower) || modelLower.contains(inputLower)) {
                 if (bestMatch == null || modelId.length() < bestMatch.length()) {
                     bestMatch = modelId;
                 }
