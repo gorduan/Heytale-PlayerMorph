@@ -359,13 +359,13 @@ public interface IMorphManager {
 }
 
 // Custom Events (optional implementierbar)
-public class PlayerMorphEvent extends IBaseEvent<Void> {
+public class MorphPlayerToEvent extends IBaseEvent<Void> {
     PlayerRef getPlayerRef();
     String getOldModelId();
     String getNewModelId();
 }
 
-public class PlayerUnmorphEvent extends IBaseEvent<Void> {
+public class UnmorphPlayerEvent extends IBaseEvent<Void> {
     PlayerRef getPlayerRef();
     String getMorphedModelId();
 }

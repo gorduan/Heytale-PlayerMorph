@@ -231,7 +231,7 @@ this.getEventRegistry().registerListener(GroupPermissionChangeEvent.class, event
 /perm group <group> remove <permission>
 ```
 
-## PlayerMorphToMob Permissions
+## MorphPlayerTo Permissions
 
 ### Geplante Permission-Struktur
 

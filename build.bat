@@ -11,7 +11,7 @@ mkdir build\plugin-classes
 
 echo Compiling stubs...
 dir /s /b stubs\*.java > stubs-files.txt
-javac -d build/stub-classes @stubs-files.txt
+javac -d "build/stub-classes" "@stubs-files.txt"
 if errorlevel 1 (
     echo Stub compilation failed!
     del stubs-files.txt
@@ -22,7 +22,7 @@ echo Stubs compiled successfully.
 
 echo Compiling plugin...
 dir /s /b src\*.java > src-files.txt
-javac -d build/plugin-classes -cp "build/stub-classes" @src-files.txt
+javac -d "build/plugin-classes" -cp "build/stub-classes" "@src-files.txt"
 if errorlevel 1 (
     echo Plugin compilation failed!
     del src-files.txt
