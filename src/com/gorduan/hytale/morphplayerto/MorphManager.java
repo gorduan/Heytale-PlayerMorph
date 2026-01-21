@@ -254,7 +254,7 @@ public class MorphManager {
 
         // Refresh the cache from ModelAsset registry
         try {
-            Set<String> modelIds = ModelAsset.getAssetMap().getKeys();
+            Set<String> modelIds = ModelAsset.getAssetMap().getAssetMap().keySet();
 
             if (modelIds.isEmpty()) {
                 LOGGER.at(Level.WARNING).log("ModelAsset registry is empty, using fallback list");
@@ -320,6 +320,45 @@ public class MorphManager {
      */
     public boolean isValidModel(@Nonnull String modelId) {
         return ModelAsset.getAssetMap().getAsset(modelId) != null;
+    }
+
+    /**
+     * Finds a matching model ID using case-insensitive and partial matching.
+     * First tries exact match, then case-insensitive, then partial match.
+     *
+     * @param input The user's input (e.g., "Kweebec", "kweebec", "TRORK")
+     * @return The exact model ID if found, or null if no match
+     */
+    @Nullable
+    public String findMatchingModel(@Nonnull String input) {
+        // First try exact match
+        if (isValidModel(input)) {
+            return input;
+        }
+
+        Set<String> modelIds = ModelAsset.getAssetMap().getAssetMap().keySet();
+        String inputLower = input.toLowerCase();
+
+        // Try case-insensitive exact match
+        for (String modelId : modelIds) {
+            if (modelId.equalsIgnoreCase(input)) {
+                return modelId;
+            }
+        }
+
+        // Try partial match (input is prefix or contained in model name)
+        // Collect all matches and prefer shorter names (more specific)
+        String bestMatch = null;
+        for (String modelId : modelIds) {
+            String modelLower = modelId.toLowerCase();
+            if (modelLower.startsWith(inputLower) || modelLower.contains("_" + inputLower)) {
+                if (bestMatch == null || modelId.length() < bestMatch.length()) {
+                    bestMatch = modelId;
+                }
+            }
+        }
+
+        return bestMatch;
     }
 
     /**

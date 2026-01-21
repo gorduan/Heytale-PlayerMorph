@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Stub für DefaultAssetMap - basierend auf dekompiliertem Server.
@@ -27,15 +26,6 @@ public class DefaultAssetMap<K, T extends JsonAsset<K>> {
     @Nonnull
     public Map<K, T> getAssetMap() {
         return Collections.emptyMap();
-    }
-
-    /**
-     * Gibt alle registrierten Asset-Keys zurück.
-     * Convenience-Methode für getAssetMap().keySet().
-     */
-    @Nonnull
-    public Set<K> getKeys() {
-        return getAssetMap().keySet();
     }
 
     /**

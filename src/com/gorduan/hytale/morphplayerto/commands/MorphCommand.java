@@ -145,28 +145,31 @@ public class MorphCommand extends AbstractCommand {
         }
 
         // Check if a mob ID with optional player name was provided
-        String mobId = cmd;
+        String mobInput = cmd;
         String targetPlayerName = (args.length > start + 1) ? args[start + 1] : null;
 
-        if (morphManager.isValidModel(mobId)) {
+        // Use fuzzy matching to find the model
+        String matchedMobId = morphManager.findMatchingModel(mobInput);
+
+        if (matchedMobId != null) {
             if (targetPlayerName != null) {
                 // Morph another player
-                handleMorphOther(ctx, player, mobId, targetPlayerName);
+                handleMorphOther(ctx, player, matchedMobId, targetPlayerName);
             } else {
                 // Morph self
                 if (!player.hasPermission("morphplayerto.morph.self")) {
                     ctx.sendMessage(Message.raw("You don't have permission to morph."));
                     return;
                 }
-                if (morphManager.applyMorph(player.getPlayerRef(), mobId)) {
-                    ctx.sendMessage(Message.raw("Morphed into " + mobId));
+                if (morphManager.applyMorph(player.getPlayerRef(), matchedMobId)) {
+                    ctx.sendMessage(Message.raw("Morphed into " + matchedMobId));
                 } else {
-                    ctx.sendMessage(Message.raw("Failed to morph into " + mobId));
+                    ctx.sendMessage(Message.raw("Failed to morph into " + matchedMobId));
                 }
             }
         } else {
-            ctx.sendMessage(Message.raw("Unknown mob: " + mobId));
-            ctx.sendMessage(Message.raw("Use /morph list to see available mobs."));
+            ctx.sendMessage(Message.raw("Unknown mob: " + mobInput));
+            ctx.sendMessage(Message.raw("Use /morphplayerto list to see available mobs."));
         }
     }
 
