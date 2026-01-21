@@ -12,13 +12,18 @@ public class MorphData {
 
     private final String originalModelId;
     private final PlayerSkinComponent originalSkinComponent;
+    private final String originalNameplateText;
     private String currentModelId;
+    private boolean nametagHidden;
     private final long morphTimestamp;
 
-    public MorphData(@Nonnull String originalModelId, @Nullable PlayerSkinComponent skinComponent) {
+    public MorphData(@Nonnull String originalModelId, @Nullable PlayerSkinComponent skinComponent,
+                     @Nullable String originalNameplateText) {
         this.originalModelId = originalModelId;
         this.originalSkinComponent = skinComponent;
+        this.originalNameplateText = originalNameplateText;
         this.currentModelId = null;
+        this.nametagHidden = false;
         this.morphTimestamp = System.currentTimeMillis();
     }
 
@@ -49,11 +54,25 @@ public class MorphData {
         return System.currentTimeMillis() - morphTimestamp;
     }
 
+    @Nullable
+    public String getOriginalNameplateText() {
+        return originalNameplateText;
+    }
+
+    public boolean isNametagHidden() {
+        return nametagHidden;
+    }
+
+    public void setNametagHidden(boolean nametagHidden) {
+        this.nametagHidden = nametagHidden;
+    }
+
     @Override
     public String toString() {
         return "MorphData{" +
                 "originalModelId='" + originalModelId + '\'' +
                 ", currentModelId='" + currentModelId + '\'' +
+                ", nametagHidden=" + nametagHidden +
                 ", morphTimestamp=" + morphTimestamp +
                 '}';
     }

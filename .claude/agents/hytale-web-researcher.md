@@ -189,12 +189,12 @@ Falls deine Recherche Teil eines GitHub Issues ist:
 
 ```bash
 # Issue kommentieren mit Recherche-Ergebnissen (EINZEILIG!)
-gh issue comment $ISSUE_NUMBER -b "Web Research Complete: [Executive Summary]" -R gorduan/Heytale-PlayerMorph
+gh issue comment $ISSUE_NUMBER -b "Web Research Complete: [Executive Summary]" -R gorduan/Hytale-PlayerMorph
 
 # Recherche-Bericht als Datei anhängen
-gh issue comment $ISSUE_NUMBER -F /tmp/research-report.md -R gorduan/Heytale-PlayerMorph
+gh issue comment $ISSUE_NUMBER -F /tmp/research-report.md -R gorduan/Hytale-PlayerMorph
 ```
 
 **Wichtig:** Alle `gh` Befehle MÜSSEN einzeilig sein (keine Backslash-Continuations)!
 
-**Repository:** `gorduan/Heytale-PlayerMorph`
+**Repository:** `gorduan/Hytale-PlayerMorph`

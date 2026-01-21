@@ -14,7 +14,7 @@ Du bearbeitest ein GitHub Issue für das Hytale PlayerMorph Plugin.
 
 ## Repository
 
-**GitHub:** gorduan/Heytale-PlayerMorph
+**GitHub:** gorduan/Hytale-PlayerMorph
 
 ## Workflow
 
@@ -22,11 +22,11 @@ Du bearbeitest ein GitHub Issue für das Hytale PlayerMorph Plugin.
 
 ```bash
 # Issue Details abrufen
-gh issue view $ARGUMENTS -R gorduan/Heytale-PlayerMorph
+gh issue view $ARGUMENTS -R gorduan/Hytale-PlayerMorph
 
 # Aktuellen Stand prüfen
 git log --oneline -5
-gh issue list --state open -R gorduan/Heytale-PlayerMorph
+gh issue list --state open -R gorduan/Hytale-PlayerMorph
 ```
 
 Analysiere:
@@ -38,7 +38,7 @@ Analysiere:
 
 ```bash
 # Branch für Issue erstellen (verknüpft automatisch)
-gh issue develop $ARGUMENTS -c --base main -R gorduan/Heytale-PlayerMorph
+gh issue develop $ARGUMENTS -c --base main -R gorduan/Hytale-PlayerMorph
 
 # Falls das nicht funktioniert, manuell:
 git checkout -b feature/$ARGUMENTS-beschreibung
@@ -75,7 +75,7 @@ Commit Types:
 git push -u origin HEAD
 
 # PR erstellen (MUSS einzeilig sein!)
-gh pr create -t "type(scope): description (#$ARGUMENTS)" -b "Fixes #$ARGUMENTS" -R gorduan/Heytale-PlayerMorph
+gh pr create -t "type(scope): description (#$ARGUMENTS)" -b "Fixes #$ARGUMENTS" -R gorduan/Hytale-PlayerMorph
 ```
 
 ## Checkliste
@@ -92,7 +92,7 @@ gh pr create -t "type(scope): description (#$ARGUMENTS)" -b "Fixes #$ARGUMENTS" 
 ## Kritische Regeln
 
 1. **Alle gh Befehle einzeilig** - Keine Backslash-Continuations!
-2. **Immer -R gorduan/Heytale-PlayerMorph** - Repository Flag nicht vergessen
+2. **Immer -R gorduan/Hytale-PlayerMorph** - Repository Flag nicht vergessen
 3. **Issue-Nummer im Commit** - Format: `(#123)`
 4. **Co-Authored-By** - Immer am Ende des Commits
 

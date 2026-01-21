@@ -9,7 +9,7 @@
 
 ## GitHub Repository
 
-**URL:** https://github.com/gorduan/Heytale-PlayerMorph
+**URL:** https://github.com/gorduan/Hytale-PlayerMorph
 
 Alle Agents unterstützen GitHub Issues Integration. Siehe [git-workflow.md](../context/git-workflow.md) für Details.
 

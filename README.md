@@ -13,7 +13,7 @@ A Hytale server plugin that allows players to transform into any mob model in th
 
 ## Installation
 
-1. Download the latest `Gorduan-MorphPlayerTo-x.x.x.jar` from [Releases](https://github.com/gorduan/Heytale-PlayerMorph/releases)
+1. Download the latest `Gorduan-MorphPlayerTo-x.x.x.jar` from [Releases](https://github.com/gorduan/Hytale-PlayerMorph/releases)
 2. Place the JAR file in your server's `Mods` folder
 3. Restart the server
 

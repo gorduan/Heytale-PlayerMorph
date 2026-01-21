@@ -8,6 +8,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
 import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
 import com.hypixel.hytale.server.core.cosmetics.CosmeticsModule;
+import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entity.player.PlayerSkinComponent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -89,11 +90,16 @@ public class MorphManager {
         // Get player skin component for later reset
         PlayerSkinComponent skinComponent = store.getComponent(ref, PlayerSkinComponent.getComponentType());
 
+        // Get current nameplate text for later restoration
+        Nameplate nameplate = store.getComponent(ref, Nameplate.getComponentType());
+        String originalNameplateText = (nameplate != null) ? nameplate.getText() : null;
+
         // Store original data if not already morphed
         if (!activeMorphs.containsKey(playerName)) {
             MorphData morphData = new MorphData(
                     currentModel.getModel().getModelAssetId(),
-                    skinComponent
+                    skinComponent,
+                    originalNameplateText
             );
             activeMorphs.put(playerName, morphData);
         }
@@ -170,6 +176,17 @@ public class MorphManager {
         // Apply the player model via ECS
         store.putComponent(ref, ModelComponent.getComponentType(), new ModelComponent(newModel));
 
+        // Restore nametag if it was hidden
+        if (morphData.isNametagHidden()) {
+            String originalText = morphData.getOriginalNameplateText();
+            if (originalText != null) {
+                store.putComponent(ref, Nameplate.getComponentType(), new Nameplate(originalText));
+            } else {
+                store.putComponent(ref, Nameplate.getComponentType(), new Nameplate(playerName));
+            }
+            LOGGER.at(Level.FINE).log("Restored hidden nametag for player %s", playerName);
+        }
+
         // Mark skin as outdated for network sync to other clients
         skinComponent.setNetworkOutdated();
 
@@ -181,6 +198,51 @@ public class MorphManager {
         }
 
         LOGGER.at(Level.INFO).log("Reset morph for player %s", playerName);
+        return true;
+    }
+
+    /**
+     * Sets whether a morphed player's nametag should be hidden.
+     * Removes the Nameplate component to hide, restores it to show.
+     *
+     * @param playerRef The player reference
+     * @param hidden    true to hide the nametag, false to show
+     * @return true if the operation was successful
+     */
+    public boolean setNametagHidden(@Nonnull PlayerRef playerRef, boolean hidden) {
+        Ref<EntityStore> ref = playerRef.getReference();
+        if (ref == null || !ref.isValid()) {
+            LOGGER.at(Level.WARNING).log("Cannot toggle nametag: Invalid player reference");
+            return false;
+        }
+
+        Store<EntityStore> store = ref.getStore();
+        String playerName = playerRef.getUsername();
+
+        MorphData morphData = activeMorphs.get(playerName);
+        if (morphData == null) {
+            LOGGER.at(Level.WARNING).log("Cannot toggle nametag: Player %s is not morphed", playerName);
+            return false;
+        }
+
+        if (hidden) {
+            // Hide nametag by removing the component
+            store.removeComponent(ref, Nameplate.getComponentType());
+            morphData.setNametagHidden(true);
+            LOGGER.at(Level.INFO).log("Hidden nametag for morphed player %s", playerName);
+        } else {
+            // Show nametag by restoring the component
+            String originalText = morphData.getOriginalNameplateText();
+            if (originalText != null) {
+                store.putComponent(ref, Nameplate.getComponentType(), new Nameplate(originalText));
+            } else {
+                // Fallback to player name if original text was null
+                store.putComponent(ref, Nameplate.getComponentType(), new Nameplate(playerName));
+            }
+            morphData.setNametagHidden(false);
+            LOGGER.at(Level.INFO).log("Restored nametag for morphed player %s", playerName);
+        }
+
         return true;
     }
 

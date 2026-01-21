@@ -4,7 +4,7 @@
 
 ## GitHub Repository
 
-**URL:** https://github.com/gorduan/Heytale-PlayerMorph
+**URL:** https://github.com/gorduan/Hytale-PlayerMorph
 
 ### Issue-Driven Development
 
@@ -13,26 +13,26 @@ Alle Aufgaben werden über GitHub Issues verwaltet. Vor jeder Arbeit:
 ```bash
 # Status prüfen (PFLICHT vor jeder Aufgabe!)
 git log --oneline -5
-gh issue list --state open -R gorduan/Heytale-PlayerMorph
+gh issue list --state open -R gorduan/Hytale-PlayerMorph
 ```
 
 ### Wichtige gh Befehle
 
 ```bash
 # Issue erstellen
-gh issue create -t "feat: Titel" -b "Beschreibung" -l "enhancement" -R gorduan/Heytale-PlayerMorph
+gh issue create -t "feat: Titel" -b "Beschreibung" -l "enhancement" -R gorduan/Hytale-PlayerMorph
 
 # Issue bearbeiten (Branch erstellen)
-gh issue develop 123 -c --base main -R gorduan/Heytale-PlayerMorph
+gh issue develop 123 -c --base main -R gorduan/Hytale-PlayerMorph
 
 # Issue kommentieren
-gh issue comment 123 -b "Status Update" -R gorduan/Heytale-PlayerMorph
+gh issue comment 123 -b "Status Update" -R gorduan/Hytale-PlayerMorph
 
 # PR erstellen (IMMER einzeilig!)
-gh pr create -t "feat(scope): description (#123)" -b "Fixes #123" -R gorduan/Heytale-PlayerMorph
+gh pr create -t "feat(scope): description (#123)" -b "Fixes #123" -R gorduan/Hytale-PlayerMorph
 
 # PR mergen
-gh pr merge 123 --squash --delete-branch -R gorduan/Heytale-PlayerMorph
+gh pr merge 123 --squash --delete-branch -R gorduan/Hytale-PlayerMorph
 ```
 
 > **WICHTIG:** Alle `gh` Befehle MÜSSEN einzeilig sein (keine Backslash-Continuations)!

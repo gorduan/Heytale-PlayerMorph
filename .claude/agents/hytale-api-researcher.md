@@ -90,7 +90,7 @@ Falls deine Recherche Teil eines GitHub Issues ist:
 
 ```bash
 # Issue kommentieren mit Ergebnissen (EINZEILIG!)
-gh issue comment $ISSUE_NUMBER -b "API Research: [Zusammenfassung der Erkenntnisse]" -R gorduan/Heytale-PlayerMorph
+gh issue comment $ISSUE_NUMBER -b "API Research: [Zusammenfassung der Erkenntnisse]" -R gorduan/Hytale-PlayerMorph
 ```
 
-**Repository:** `gorduan/Heytale-PlayerMorph`
+**Repository:** `gorduan/Hytale-PlayerMorph`

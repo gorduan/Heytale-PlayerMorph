@@ -35,6 +35,7 @@ import java.util.concurrent.CompletableFuture;
  *   /morph unmorph <player>     - Reset another player's morph
  *   /morph <mobId>              - Morph into mob (self)
  *   /morph <mobId> <player>     - Morph another player into mob
+ *   /morph <mobId> --hiddenname - Morph and hide nametag
  *   /morph help                 - Show help
  *
  * Aliases: /morphplayerto, /mpt
@@ -144,9 +145,26 @@ public class MorphCommand extends AbstractCommand {
             return;
         }
 
+        // Check for --hiddenname flag anywhere in arguments
+        boolean hideNametag = false;
+        for (int i = start; i < args.length; i++) {
+            if (args[i].equalsIgnoreCase("--hiddenname") || args[i].equalsIgnoreCase("--hidenametag")) {
+                hideNametag = true;
+                break;
+            }
+        }
+
         // Check if a mob ID with optional player name was provided
         String mobInput = cmd;
-        String targetPlayerName = (args.length > start + 1) ? args[start + 1] : null;
+        String targetPlayerName = null;
+
+        // Find target player name (next arg after mob that isn't a flag)
+        if (args.length > start + 1) {
+            String nextArg = args[start + 1];
+            if (!nextArg.startsWith("--")) {
+                targetPlayerName = nextArg;
+            }
+        }
 
         // Use fuzzy matching to find the model
         String matchedMobId = morphManager.findMatchingModel(mobInput);
@@ -154,7 +172,7 @@ public class MorphCommand extends AbstractCommand {
         if (matchedMobId != null) {
             if (targetPlayerName != null) {
                 // Morph another player
-                handleMorphOther(ctx, player, matchedMobId, targetPlayerName);
+                handleMorphOther(ctx, player, matchedMobId, targetPlayerName, hideNametag);
             } else {
                 // Morph self
                 if (!player.hasPermission("morphplayerto.morph.self")) {
@@ -163,6 +181,12 @@ public class MorphCommand extends AbstractCommand {
                 }
                 if (morphManager.applyMorph(player.getPlayerRef(), matchedMobId)) {
                     ctx.sendMessage(Message.raw("Morphed into " + matchedMobId));
+                    // Hide nametag if flag was set
+                    if (hideNametag) {
+                        if (morphManager.setNametagHidden(player.getPlayerRef(), true)) {
+                            ctx.sendMessage(Message.raw("Nametag hidden."));
+                        }
+                    }
                 } else {
                     ctx.sendMessage(Message.raw("Failed to morph into " + matchedMobId));
                 }
@@ -178,7 +202,7 @@ public class MorphCommand extends AbstractCommand {
      * Uses NameMatching for fuzzy player name lookup across all worlds.
      */
     private void handleMorphOther(@Nonnull CommandContext ctx, @Nonnull Player sender,
-                                   @Nonnull String mobId, @Nonnull String targetName) {
+                                   @Nonnull String mobId, @Nonnull String targetName, boolean hideNametag) {
         if (!sender.hasPermission("morphplayerto.morph.others")) {
             ctx.sendMessage(Message.raw("You don't have permission to morph other players."));
             return;
@@ -194,6 +218,12 @@ public class MorphCommand extends AbstractCommand {
         if (morphManager.applyMorph(targetRef, mobId)) {
             ctx.sendMessage(Message.raw("Morphed " + targetRef.getUsername() + " into " + mobId));
             targetRef.sendMessage(Message.raw("You have been morphed into " + mobId + " by " + sender.getPlayerRef().getUsername()));
+            // Hide nametag if flag was set
+            if (hideNametag) {
+                if (morphManager.setNametagHidden(targetRef, true)) {
+                    ctx.sendMessage(Message.raw("Nametag hidden for " + targetRef.getUsername()));
+                }
+            }
         } else {
             ctx.sendMessage(Message.raw("Failed to morph " + targetRef.getUsername() + " into " + mobId));
         }
@@ -247,6 +277,7 @@ public class MorphCommand extends AbstractCommand {
         ctx.sendMessage(Message.raw("/morph list - List available mobs"));
         ctx.sendMessage(Message.raw("/morph <mobId> - Morph yourself into mob"));
         ctx.sendMessage(Message.raw("/morph <mobId> <player> - Morph another player"));
+        ctx.sendMessage(Message.raw("/morph <mobId> --hiddenname - Morph and hide nametag"));
         ctx.sendMessage(Message.raw("/morph unmorph - Reset your morph"));
         ctx.sendMessage(Message.raw("/morph unmorph <player> - Reset another player's morph"));
         ctx.sendMessage(Message.raw("/morph help - Show this help"));

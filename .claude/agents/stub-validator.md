@@ -86,10 +86,10 @@ Falls deine Validierung Teil eines GitHub Issues ist:
 
 ```bash
 # Issue kommentieren mit Validierungsergebnis (EINZEILIG!)
-gh issue comment $ISSUE_NUMBER -b "Stub Validation: [Status] - [Zusammenfassung]" -R gorduan/Heytale-PlayerMorph
+gh issue comment $ISSUE_NUMBER -b "Stub Validation: [Status] - [Zusammenfassung]" -R gorduan/Hytale-PlayerMorph
 
 # Bei gefundenen Problemen
-gh issue comment $ISSUE_NUMBER -b "Found stub issues: [Liste der Diskrepanzen]" -R gorduan/Heytale-PlayerMorph
+gh issue comment $ISSUE_NUMBER -b "Found stub issues: [Liste der Diskrepanzen]" -R gorduan/Hytale-PlayerMorph
 ```
 
-**Repository:** `gorduan/Heytale-PlayerMorph`
+**Repository:** `gorduan/Hytale-PlayerMorph`

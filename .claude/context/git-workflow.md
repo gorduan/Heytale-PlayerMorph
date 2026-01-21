@@ -2,7 +2,7 @@
 
 ## Repository
 
-**GitHub:** https://github.com/gorduan/Heytale-PlayerMorph
+**GitHub:** https://github.com/gorduan/Hytale-PlayerMorph
 
 ## Issue-Driven Development
 
@@ -13,7 +13,7 @@
 ```bash
 # Aktuellen Stand prüfen
 git log --oneline -10
-gh issue list --state all --limit 10 -R gorduan/Heytale-PlayerMorph
+gh issue list --state all --limit 10 -R gorduan/Hytale-PlayerMorph
 ```
 
 Dies verhindert doppelte Arbeit und stellt Konsistenz sicher.
@@ -45,51 +45,51 @@ Jedes Issue benötigt:
 
 ```bash
 # Issue erstellen
-gh issue create -t "feat: Titel" -b "Beschreibung" -l "enhancement" -R gorduan/Heytale-PlayerMorph
+gh issue create -t "feat: Titel" -b "Beschreibung" -l "enhancement" -R gorduan/Hytale-PlayerMorph
 
 # Issue mit Body aus Datei
-gh issue create -t "feat: Titel" -F /tmp/issue-body.md -l "enhancement" -R gorduan/Heytale-PlayerMorph
+gh issue create -t "feat: Titel" -F /tmp/issue-body.md -l "enhancement" -R gorduan/Hytale-PlayerMorph
 
 # Issues auflisten
-gh issue list --state open -R gorduan/Heytale-PlayerMorph
-gh issue list --state all --limit 20 -R gorduan/Heytale-PlayerMorph
+gh issue list --state open -R gorduan/Hytale-PlayerMorph
+gh issue list --state all --limit 20 -R gorduan/Hytale-PlayerMorph
 
 # Issue anzeigen
-gh issue view 123 -R gorduan/Heytale-PlayerMorph
+gh issue view 123 -R gorduan/Hytale-PlayerMorph
 
 # Issue kommentieren
-gh issue comment 123 -b "Implementation plan: ..." -R gorduan/Heytale-PlayerMorph
+gh issue comment 123 -b "Implementation plan: ..." -R gorduan/Hytale-PlayerMorph
 
 # Issue schließen
-gh issue close 123 -R gorduan/Heytale-PlayerMorph
+gh issue close 123 -R gorduan/Hytale-PlayerMorph
 
 # Branch für Issue erstellen
-gh issue develop 123 -c --base main -R gorduan/Heytale-PlayerMorph
+gh issue develop 123 -c --base main -R gorduan/Hytale-PlayerMorph
 
 # Labels hinzufügen
-gh issue edit 123 --add-label "status:in-progress" -R gorduan/Heytale-PlayerMorph
+gh issue edit 123 --add-label "status:in-progress" -R gorduan/Hytale-PlayerMorph
 ```
 
 ### Pull Requests
 
 ```bash
 # PR erstellen (IMMER einzeilig!)
-gh pr create -t "feat(morph): add model preview (#123)" -b "Fixes #123" -R gorduan/Heytale-PlayerMorph
+gh pr create -t "feat(morph): add model preview (#123)" -b "Fixes #123" -R gorduan/Hytale-PlayerMorph
 
 # PR mit Body aus Datei
-gh pr create -t "feat(morph): add model preview (#123)" -F /tmp/pr-body.md -R gorduan/Heytale-PlayerMorph
+gh pr create -t "feat(morph): add model preview (#123)" -F /tmp/pr-body.md -R gorduan/Hytale-PlayerMorph
 
 # PR auflisten
-gh pr list -R gorduan/Heytale-PlayerMorph
+gh pr list -R gorduan/Hytale-PlayerMorph
 
 # PR anzeigen
-gh pr view 123 -R gorduan/Heytale-PlayerMorph
+gh pr view 123 -R gorduan/Hytale-PlayerMorph
 
 # PR mergen
-gh pr merge 123 --squash --delete-branch -R gorduan/Heytale-PlayerMorph
+gh pr merge 123 --squash --delete-branch -R gorduan/Hytale-PlayerMorph
 
 # PR Kommentare lesen
-gh api repos/gorduan/Heytale-PlayerMorph/pulls/123/comments
+gh api repos/gorduan/Hytale-PlayerMorph/pulls/123/comments
 ```
 
 ## Branching Strategy
@@ -105,7 +105,7 @@ main                    # Stabile Releases
 
 ```bash
 # Via gh (empfohlen - verknüpft automatisch mit Issue)
-gh issue develop 123 -c --base main -R gorduan/Heytale-PlayerMorph
+gh issue develop 123 -c --base main -R gorduan/Hytale-PlayerMorph
 
 # Manuell
 git checkout -b feature/123-add-model-preview
@@ -148,10 +148,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ```bash
 # 1. Issue prüfen
-gh issue view 123 -R gorduan/Heytale-PlayerMorph
+gh issue view 123 -R gorduan/Hytale-PlayerMorph
 
 # 2. Branch erstellen
-gh issue develop 123 -c --base main -R gorduan/Heytale-PlayerMorph
+gh issue develop 123 -c --base main -R gorduan/Hytale-PlayerMorph
 
 # 3. Implementieren und committen
 git add .
@@ -163,10 +163,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git push -u origin feature/123-add-model-preview
 
 # 5. PR erstellen
-gh pr create -t "feat(morph): add model preview (#123)" -b "Fixes #123" -R gorduan/Heytale-PlayerMorph
+gh pr create -t "feat(morph): add model preview (#123)" -b "Fixes #123" -R gorduan/Hytale-PlayerMorph
 
 # 6. Nach Review: Mergen
-gh pr merge 123 --squash --delete-branch -R gorduan/Heytale-PlayerMorph
+gh pr merge 123 --squash --delete-branch -R gorduan/Hytale-PlayerMorph
 ```
 
 ## Definition of Done
@@ -193,4 +193,4 @@ Ein Issue ist abgeschlossen wenn:
 - Conventional Commits verwenden
 - Co-Authored-By Header hinzufügen
 - Build testen vor Commit
-- `-R gorduan/Heytale-PlayerMorph` bei allen gh Befehlen
+- `-R gorduan/Hytale-PlayerMorph` bei allen gh Befehlen
